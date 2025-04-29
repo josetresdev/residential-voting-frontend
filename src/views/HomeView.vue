@@ -57,11 +57,11 @@
 
 <script>
 export default {
-  name: "HomeView",
+  name: 'HomeView',
 };
 </script>
 
 <!-- Importar el archivo de estilos externo -->
 <style scoped lang="scss">
-@import "@/assets/styles/Home";
+@import '@/assets/styles/Home';
 </style>

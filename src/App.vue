@@ -20,11 +20,11 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
 };
 </script>
 
 <!-- Importar el archivo SCSS -->
 <style lang="scss" scoped>
-@import "@/assets/styles/App.scss"; /* Ajusta la ruta según tu estructura de carpetas */
+@import '@/assets/styles/App.scss'; /* Ajusta la ruta según tu estructura de carpetas */
 </style>
