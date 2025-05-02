@@ -42,10 +42,10 @@
                   <table class="table table-hover table-bordered">
                     <thead>
                       <tr>
-                        <th>#</th>
-                        <th>Opción</th>
-                        <th>Votos</th>
-                        <th>Porcentaje</th>
+                        <th># <i class="fas fa-hashtag"></i></th>
+                        <th>Opción <i class="fas fa-check-circle"></i></th>
+                        <th>Votos <i class="fas fa-vote-yea"></i></th>
+                        <th>Porcentaje <i class="fas fa-percent"></i></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -168,7 +168,7 @@ export default {
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: #2b0a41;
   text-align: center;
@@ -178,7 +178,7 @@ export default {
 }
 
 .text-muted {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #6c757d;
   margin-top: 2rem;
 }
@@ -192,10 +192,8 @@ export default {
     flex-direction: column;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
     padding: 1rem;
-    transition: background-color 0.3s;
 
     &:hover {
       background-color: #f9f4ff;
@@ -205,7 +203,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       color: #2b0a41;
     }
@@ -231,20 +229,24 @@ export default {
 .table {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-top: 1.5rem;
   border-collapse: collapse;
 
+  thead {
+    background: linear-gradient(to right, #2b0a41, #5a36a0);
+  }
+
   th {
-    background-color: #2b0a41;
     color: #fff;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding: 0.6rem;
   }
 
   td {
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    padding: 0.6rem;
   }
 
   .table-hover tbody tr:hover {
@@ -271,7 +273,7 @@ export default {
 }
 
 .btn {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   padding: 0.6rem 1.2rem;
   border-radius: 5px;
   transition: background-color 0.3s ease;

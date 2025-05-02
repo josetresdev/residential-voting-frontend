@@ -50,6 +50,23 @@
             </tbody>
           </table>
         </div>
+
+        <div class="pagination">
+          <button
+            class="btn-pagination"
+            @click="previousPage"
+            :disabled="currentPage === 1"
+          >
+            Anterior
+          </button>
+          <button
+            class="btn-pagination"
+            @click="nextPage"
+            :disabled="currentPage === totalPages"
+          >
+            Siguiente
+          </button>
+        </div>
       </div>
 
       <div v-if="isModalOpen" class="modal-backdrop" @click.self="closeModal">
@@ -100,22 +117,10 @@ export default {
   data() {
     return {
       questions: [
-        {
-          id: 1,
-          text: '¿Qué opinas sobre la situación actual del país?',
-        },
-        {
-          id: 2,
-          text: '¿Cuál es tu meta personal para el próximo año?',
-        },
-        {
-          id: 3,
-          text: '¿Cómo evalúas la calidad de los servicios públicos?',
-        },
-        {
-          id: 4,
-          text: '¿Qué tan importante es para ti el medio ambiente?',
-        },
+        { id: 1, text: '¿Qué opinas sobre la situación actual del país?' },
+        { id: 2, text: '¿Cuál es tu meta personal para el próximo año?' },
+        { id: 3, text: '¿Cómo evalúas la calidad de los servicios públicos?' },
+        { id: 4, text: '¿Qué tan importante es para ti el medio ambiente?' },
         {
           id: 5,
           text: '¿Qué harías para mejorar la seguridad en tu comunidad?',
@@ -124,13 +129,23 @@ export default {
       searchQuery: '',
       isModalOpen: false,
       currentQuestion: null,
+      currentPage: 1,
+      itemsPerPage: 5,
     };
   },
   computed: {
     filteredQuestions() {
-      return this.questions.filter((question) =>
-        question.text.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      return this.questions
+        .filter((question) =>
+          question.text.toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+        .slice(
+          (this.currentPage - 1) * this.itemsPerPage,
+          this.currentPage * this.itemsPerPage
+        );
+    },
+    totalPages() {
+      return Math.ceil(this.questions.length / this.itemsPerPage);
     },
   },
   methods: {
@@ -157,6 +172,12 @@ export default {
     deleteQuestion(id) {
       this.questions = this.questions.filter((question) => question.id !== id);
     },
+    previousPage() {
+      if (this.currentPage > 1) this.currentPage--;
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) this.currentPage++;
+    },
   },
 };
 </script>
@@ -167,30 +188,30 @@ export default {
 }
 
 .questions-view {
-  padding: 2rem;
+  padding: 1.5rem;
   flex-grow: 1;
 }
 
 .container {
   max-width: 1100px;
   margin: auto;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.2rem; /* Ajustado para un tamaño más pequeño */
   font-weight: bold;
   color: #2b0a41;
   text-align: center;
-  margin-bottom: 2rem;
-  border-bottom: 4px solid #2b0a41;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #2b0a41;
   padding-bottom: 0.5rem;
 }
 
 .text-muted {
-  font-size: 1rem;
+  font-size: 0.75rem; /* Ajustado para un tamaño más pequeño */
   color: #6c757d;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .table-wrapper {
@@ -201,18 +222,19 @@ export default {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   overflow: hidden;
   margin-top: 1rem;
 
   th td {
-    padding: 1rem;
+    padding: 0.8rem;
     text-align: center;
+    font-size: 0.85rem; /* Ajustado para un tamaño más pequeño */
   }
 
   thead {
-    background-color: #2b0a41;
+    background: linear-gradient(135deg, #2b0a41, #5a36a0);
     color: white;
 
     th {
@@ -235,7 +257,7 @@ export default {
   cursor: pointer;
   padding: 0.4rem 0.6rem;
   margin: 0 0.2rem;
-  font-size: 1.2rem;
+  font-size: 0.85rem; /* Ajustado para un tamaño más pequeño */
   border-radius: 8px;
   transition: background-color 0.2s;
 
@@ -280,7 +302,7 @@ export default {
 
 .modal-card {
   background: #fff;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 16px;
   width: 100%;
   max-width: 500px;
@@ -288,7 +310,7 @@ export default {
   position: relative;
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.1rem; /* Ajustado para un tamaño más pequeño */
     color: #2b0a41;
     margin: 0;
   }
@@ -302,7 +324,7 @@ export default {
     .close-btn {
       background: none;
       border: none;
-      font-size: 1.25rem;
+      font-size: 1rem; /* Ajustado para un tamaño más pequeño */
       color: #999;
       cursor: pointer;
 
@@ -313,7 +335,7 @@ export default {
   }
 
   .form-group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
 
     label {
       display: block;
@@ -323,10 +345,10 @@ export default {
 
     input {
       width: 100%;
-      padding: 0.65rem;
+      padding: 0.6rem;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 0.85rem; /* Ajustado para un tamaño más pequeño */
 
       &:focus {
         border-color: #2b0a41;
@@ -339,12 +361,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    margin-top: 1.5rem;
+    margin-top: 1.2rem;
 
     .btn-confirm {
       background-color: #2b0a41;
       color: white;
-      padding: 0.6rem 1.4rem;
+      padding: 0.5rem 1.2rem;
       border: none;
       border-radius: 8px;
       font-weight: 600;
@@ -358,7 +380,7 @@ export default {
     .btn-cancel {
       background-color: #f3f3f3;
       color: #555;
-      padding: 0.6rem 1.4rem;
+      padding: 0.5rem 1.2rem;
       border: none;
       border-radius: 8px;
       font-weight: 600;
@@ -367,6 +389,31 @@ export default {
       &:hover {
         background-color: #e1e1e1;
       }
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+
+  .btn-pagination {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    font-size: 0.85rem; /* Ajustado para un tamaño más pequeño */
+    border: none;
+    border-radius: 8px;
+    background-color: #2b0a41;
+    color: white;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #5a36a0;
     }
   }
 }

@@ -16,15 +16,15 @@
         <table class="table">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Rol</th>
+              <th @click="sortTable('id')">#</th>
+              <th @click="sortTable('name')">Nombre</th>
+              <th @click="sortTable('email')">Email</th>
+              <th @click="sortTable('role')">Rol</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, index) in users" :key="user.id">
+            <tr v-for="(user, index) in paginatedUsers" :key="user.id">
               <td>{{ index + 1 }}</td>
               <td>{{ user.name }}</td>
               <td>{{ user.email }}</td>
@@ -35,15 +35,32 @@
               </td>
               <td>
                 <button class="icon-button edit" @click="openEditModal(user)">
-                  <i class="fas fa-pen"></i>
+                  <i class="fas fa-pencil-alt"></i>
                 </button>
                 <button class="icon-button delete" @click="deleteUser(user.id)">
-                  <i class="fas fa-trash-alt"></i>
+                  <i class="fas fa-trash"></i>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
+        <div class="pagination">
+          <button
+            class="page-button"
+            :disabled="currentPage === 1"
+            @click="prevPage"
+          >
+            Anterior
+          </button>
+          <span class="page-info">Página {{ currentPage }}</span>
+          <button
+            class="page-button"
+            :disabled="currentPage * usersPerPage >= users.length"
+            @click="nextPage"
+          >
+            Siguiente
+          </button>
+        </div>
       </div>
     </div>
 
@@ -119,10 +136,19 @@ export default {
         email: '',
         role: '',
       },
+      currentPage: 1,
+      usersPerPage: 5,
     };
   },
   mounted() {
     this.loadUsers();
+  },
+  computed: {
+    paginatedUsers() {
+      const start = (this.currentPage - 1) * this.usersPerPage;
+      const end = start + this.usersPerPage;
+      return this.users.slice(start, end);
+    },
   },
   methods: {
     loadUsers() {
@@ -144,6 +170,48 @@ export default {
           name: 'Carlos Ruiz',
           email: 'carlos@example.com',
           role: 'Moderador',
+        },
+        {
+          id: 4,
+          name: 'Marta López',
+          email: 'marta@example.com',
+          role: 'Usuario',
+        },
+        {
+          id: 5,
+          name: 'David García',
+          email: 'david@example.com',
+          role: 'Administrador',
+        },
+        {
+          id: 6,
+          name: 'Pedro Sánchez',
+          email: 'pedro@example.com',
+          role: 'Moderador',
+        },
+        {
+          id: 7,
+          name: 'Lucía Fernández',
+          email: 'lucia@example.com',
+          role: 'Usuario',
+        },
+        {
+          id: 8,
+          name: 'Javier Rodríguez',
+          email: 'javier@example.com',
+          role: 'Administrador',
+        },
+        {
+          id: 9,
+          name: 'Beatriz Martínez',
+          email: 'beatriz@example.com',
+          role: 'Moderador',
+        },
+        {
+          id: 10,
+          name: 'Luis Gómez',
+          email: 'luis@example.com',
+          role: 'Usuario',
         },
       ];
     },
@@ -175,63 +243,74 @@ export default {
           return 'badge-user';
       }
     },
+    sortTable(field) {
+      this.users.sort((a, b) => {
+        if (a[field] < b[field]) return -1;
+        if (a[field] > b[field]) return 1;
+        return 0;
+      });
+    },
+    prevPage() {
+      if (this.currentPage > 1) this.currentPage--;
+    },
+    nextPage() {
+      if (this.currentPage * this.usersPerPage < this.users.length)
+        this.currentPage++;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .users-view {
-  padding: 2rem;
+  padding: 1.5rem;
 
   .container {
     max-width: 1100px;
     margin: auto;
-    padding: 0 1.5rem;
+    padding: 0 1.2rem;
   }
 
   .title {
-    font-size: 2.2rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: #2b0a41;
     text-align: center;
-    margin-bottom: 2.5rem;
-    border-bottom: 4px solid #2b0a41;
-    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #2b0a41;
+    padding-bottom: 0.4rem;
   }
 
   .text-muted {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: #6c757d;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
   }
 
   .table-wrapper {
     overflow-x: auto;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
   }
 
   .table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    background: linear-gradient(to bottom, #fff, #f8f9fc);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
+    border-radius: 10px;
     overflow: hidden;
 
     th,
     td {
-      padding: 1.5rem;
+      padding: 0.7rem;
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.85rem;
+      cursor: pointer;
     }
 
     thead {
-      background-color: #2b0a41;
+      background: linear-gradient(45deg, #2b0a41, #5a36a0);
       color: white;
-
-      th {
-        font-weight: 600;
-      }
     }
 
     tbody tr {
@@ -244,9 +323,9 @@ export default {
   }
 
   .badge {
-    padding: 0.45rem 0.85rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 50px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: bold;
     display: inline-block;
     text-transform: capitalize;
@@ -271,9 +350,9 @@ export default {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0.4rem 0.6rem;
+    padding: 0.5rem 0.7rem;
     margin: 0 0.3rem;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     border-radius: 8px;
     transition: background-color 0.2s;
 
@@ -294,15 +373,37 @@ export default {
     }
   }
 
-  .fade-scale-enter-active,
-  .fade-scale-leave-active {
-    transition: all 0.25s ease;
-  }
+  .pagination {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 
-  .fade-scale-enter-from,
-  .fade-scale-leave-to {
-    opacity: 0;
-    transform: scale(0.9);
+    .page-button {
+      background-color: #2b0a41;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+
+      &:hover {
+        background-color: #5a36a0;
+      }
+
+      &:disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+      }
+    }
+
+    .page-info {
+      font-size: 0.85rem;
+      color: #333;
+    }
   }
 
   .modal-backdrop {
@@ -318,15 +419,16 @@ export default {
 
   .modal-card {
     background: #fff;
-    padding: 2rem;
-    border-radius: 16px;
+    padding: 1.2rem;
+    border-radius: 12px;
     width: 100%;
-    max-width: 500px;
+    max-width: 430px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
     position: relative;
+    font-size: 0.85rem;
 
     h3 {
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       color: #2b0a41;
       margin: 0;
     }
@@ -340,7 +442,7 @@ export default {
       .close-btn {
         background: none;
         border: none;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         color: #999;
         cursor: pointer;
 
@@ -356,16 +458,16 @@ export default {
       label {
         display: block;
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
       }
 
       input,
       select {
         width: 100%;
-        padding: 0.65rem;
+        padding: 0.6rem;
         border: 1px solid #ccc;
         border-radius: 8px;
-        font-size: 1rem;
+        font-size: 0.9rem;
 
         &:focus {
           border-color: #2b0a41;
@@ -378,12 +480,12 @@ export default {
       display: flex;
       justify-content: flex-end;
       gap: 1rem;
-      margin-top: 1.5rem;
+      margin-top: 1.3rem;
 
       .btn-confirm {
         background-color: #2b0a41;
         color: white;
-        padding: 0.6rem 1.4rem;
+        padding: 0.5rem 1.3rem;
         border: none;
         border-radius: 8px;
         font-weight: 600;
@@ -397,7 +499,7 @@ export default {
       .btn-cancel {
         background-color: #f3f3f3;
         color: #555;
-        padding: 0.6rem 1.4rem;
+        padding: 0.5rem 1.3rem;
         border: none;
         border-radius: 8px;
         font-weight: 600;
