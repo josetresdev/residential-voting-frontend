@@ -1,14 +1,14 @@
 <template>
   <aside :class="['sidebar', { collapsed }]">
     <div class="sidebar-header">
-      <i class="fas fa-home logo-icon"></i>
+      <i class="fas fa-tachometer-alt logo-icon"></i>
     </div>
     <button
       class="toggle-btn"
       @click="toggleSidebar"
       :title="collapsed ? 'Expandir' : 'Colapsar'"
     >
-      <i :class="collapsed ? 'fas fa-arrow-right' : 'fas fa-arrow-left'"></i>
+      <i :class="collapsed ? 'fas fa-bars' : 'fas fa-chevron-left'"></i>
     </button>
 
     <nav class="sidebar-nav">
@@ -47,6 +47,11 @@ export default {
     return {
       collapsed: true,
       navItems: [
+        {
+          to: '/admin/dashboard',
+          title: 'Dashboard',
+          icon: 'fas fa-tachometer-alt',
+        },
         {
           to: '/admin/users',
           title: 'Usuarios',
@@ -89,26 +94,27 @@ export default {
 
 <style scoped lang="scss">
 .sidebar {
-  width: 72px;
+  width: 240px;
   transition: width 0.3s ease;
-  height: 100vh;
-  background-color: #2b0a41;
+  height: 85vh; /* Mantén la altura actual */
+  background: linear-gradient(to bottom, #2b0a41, #56317a);
   color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  padding: 1rem 0.5rem;
-  border-top-right-radius: 1.5rem;
-  border-bottom-right-radius: 1.5rem;
+  padding: 1.4rem 1.2rem;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   position: fixed;
   left: 0;
-  top: 0;
+  top: 11vh;
   z-index: 1000;
   overflow: hidden;
 
   &.collapsed {
-    width: 56px;
+    width: 90px;
+    padding: 1.4rem 0.6rem;
 
     .nav-item i,
     .logout-button i,
@@ -121,17 +127,13 @@ export default {
     }
   }
 
-  &:not(.collapsed) {
-    width: 200px;
-  }
-
   .sidebar-header {
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 
     .logo-icon {
-      font-size: 2rem;
+      font-size: 1.5rem;
       color: #c9c3ff;
     }
   }
@@ -141,51 +143,57 @@ export default {
     border: none;
     color: #c9c3ff;
     cursor: pointer;
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    width: 40px;
-    height: 40px;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    width: 45px;
+    height: 45px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: background 0.3s;
 
     &:hover {
       background-color: #3e215d;
+    }
+
+    i {
+      transition: transform 0.3s ease;
     }
   }
 
   .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-    margin-top: 1rem;
+    gap: 1.4rem;
+    margin-top: 1.5rem;
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      padding: 0 0.5rem;
-      height: 40px;
+      gap: 1.2rem;
+      padding: 0.7rem 0.6rem;
+      height: 50px;
       border-radius: 12px;
       color: #eae8f6;
-      font-size: 1.1rem;
-      transition: background 0.2s, color 0.2s;
+      font-size: 1rem;
+      transition: background 0.3s, color 0.3s;
       text-decoration: none;
       position: relative;
 
       i {
         width: 24px;
+        height: 24px;
+        font-size: 1.2rem;
         text-align: center;
-        text-decoration: none;
+        transition: font-size 0.3s ease;
       }
 
       .label {
         white-space: nowrap;
-        font-size: 0.85rem;
+        font-size: 1rem;
         color: #eae8f6;
-        transition: color 0.2s ease;
+        transition: color 0.3s ease;
         text-decoration: none;
 
         &:hover {
@@ -206,7 +214,7 @@ export default {
         transition: opacity 0.3s ease, visibility 0.3s ease;
         pointer-events: none;
         z-index: 100;
-        top: -25px;
+        top: -30px;
         left: 50%;
         transform: translateX(-50%);
       }
@@ -220,7 +228,13 @@ export default {
       &.active {
         background-color: #56317a;
         color: #fff;
-        text-decoration: none;
+        font-weight: bold;
+        border-left: 6px solid #c9c3ff;
+        padding-left: 1.4rem;
+        i {
+          font-size: 1.1rem;
+          transform: scale(0.9);
+        }
       }
     }
   }
@@ -235,24 +249,23 @@ export default {
       border: none;
       color: #c9c3ff;
       cursor: pointer;
-      font-size: 1.1rem;
-      height: 40px;
+      font-size: 1.2rem;
+      height: 45px;
       border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      padding: 0 0.5rem;
+      gap: 1rem;
+      padding: 0 0.8rem;
       text-decoration: none;
 
       i {
-        width: 24px;
+        width: 26px;
         text-align: center;
-        text-decoration: none;
       }
 
       .label {
         white-space: nowrap;
-        font-size: 0.85rem;
+        font-size: 1rem;
         color: #c9c3ff;
         transition: color 0.2s ease;
         text-decoration: none;

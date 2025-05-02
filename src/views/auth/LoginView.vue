@@ -3,8 +3,8 @@
     <div class="container">
       <div class="card">
         <div class="card-header">
-          <i class="fas fa-sign-in-alt me-2"></i>
-          Iniciar sesión
+          <i class="fas fa-user-circle me-2"></i>
+          Acceso al sistema
         </div>
         <div class="card-body">
           <h2 class="section-title">Bienvenido al sistema de votación</h2>
@@ -12,7 +12,6 @@
             Por favor, ingrese sus credenciales para acceder al sistema.
           </p>
 
-          <!-- Formulario de inicio de sesión -->
           <form @submit.prevent="submitForm">
             <div class="mb-3">
               <label for="email" class="form-label">Correo electrónico</label>
@@ -39,18 +38,20 @@
             </div>
 
             <div class="text-center mt-3">
-              <button type="submit" class="btn btn-primary mb-3">
+              <button type="submit" class="btn btn-gradient mb-2">
+                <i class="fas fa-sign-in-alt me-2"></i>
                 Iniciar sesión
               </button>
             </div>
           </form>
 
-          <!-- Botones para acceder como administrador o cliente -->
-          <div class="text-center mt-3">
-            <router-link to="/admin/dashboard" class="btn btn-primary mb-3">
+          <div class="text-center mt-2">
+            <router-link to="/admin/dashboard" class="btn btn-secondary mb-2">
+              <i class="fas fa-cogs me-2"></i>
               Ir a la vista de administrador
             </router-link>
             <router-link to="/client/dashboard" class="btn btn-secondary">
+              <i class="fas fa-user me-2"></i>
               Ir a la vista de cliente
             </router-link>
           </div>
@@ -71,10 +72,8 @@ export default {
   },
   methods: {
     submitForm() {
-      // Aquí puedes manejar la lógica para autenticar al usuario
       console.log('Formulario enviado', this.email, this.password);
-      // Ejemplo de redirección después de enviar el formulario (suponiendo autenticación exitosa)
-      this.$router.push('/client/dashboard'); // Redirige al dashboard del cliente
+      this.$router.push('/client/dashboard');
     },
   },
 };
@@ -82,7 +81,7 @@ export default {
 
 <style scoped lang="scss">
 .login-view {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
 
 .container {
@@ -93,29 +92,30 @@ export default {
 
 .card {
   width: 100%;
-  max-width: 450px; /* Aumento del ancho del card */
+  max-width: 500px;
   border-radius: 14px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border: none;
+  margin-bottom: 2rem;
 }
 
 .card-header {
-  background-color: #2b0a41;
+  background: linear-gradient(135deg, #2b0a41, #5e3ea1);
   color: #ffffff;
   text-align: center;
-  font-size: 1.5rem; /* Reducción del tamaño de la fuente */
+  font-size: 1.25rem;
   font-weight: 600;
   padding: 1rem;
   border-radius: 14px 14px 0 0;
 }
 
 .card-body {
-  padding: 1.5rem;
+  padding: 2rem;
   background-color: #ffffff;
 }
 
 .section-title {
-  font-size: 1.125rem; /* Reducción del tamaño de la fuente */
+  font-size: 1.125rem;
   font-weight: 600;
   color: #2b0a41;
   margin-bottom: 1rem;
@@ -124,7 +124,7 @@ export default {
 }
 
 .text-muted {
-  font-size: 0.875rem; /* Fuente más pequeña */
+  font-size: 0.875rem;
   margin-bottom: 1.5rem;
   color: #6c757d;
 }
@@ -132,41 +132,46 @@ export default {
 .form-label {
   font-weight: 600;
   color: #2b0a41;
-  font-size: 0.875rem; /* Fuente más pequeña */
+  font-size: 0.875rem;
 }
 
 .form-control {
   border-radius: 8px;
   border: 1px solid #c9c3ff;
-  padding: 0.75rem; /* Más espacio interno en los campos */
-  font-size: 0.875rem; /* Fuente más pequeña */
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #5e3ea1;
+  outline: none;
 }
 
 .btn {
-  font-size: 0.875rem; /* Reducción del tamaño de la fuente */
-  padding: 0.6rem 1.2rem; /* Tamaño ajustado */
-  border-radius: 8px;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 50px;
   text-decoration: none;
   display: inline-block;
   width: 100%;
-  max-width: 320px; /* Ajuste en el ancho de los botones */
+  max-width: 320px;
 }
 
-.btn-primary {
-  background-color: #2b0a41;
+.btn-gradient {
+  background: linear-gradient(135deg, #2b0a41, #5e3ea1);
   border-color: #2b0a41;
-  color: #ffffff;
+  color: white;
 }
 
-.btn-primary:hover {
-  background-color: #856ca0;
-  border-color: #856ca0;
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #856ca0, #5e3ea1);
 }
 
 .btn-secondary {
   background-color: #6c757d;
   border-color: #6c757d;
-  color: #ffffff;
+  color: white;
 }
 
 .btn-secondary:hover {
@@ -174,7 +179,11 @@ export default {
   border-color: #545b62;
 }
 
+.mb-2 {
+  margin-bottom: 0.75rem;
+}
+
 .mb-3 {
-  margin-bottom: 0.75rem; /* Menos espacio entre los botones */
+  margin-bottom: 1rem;
 }
 </style>

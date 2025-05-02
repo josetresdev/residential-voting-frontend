@@ -61,7 +61,6 @@
 </template>
 
 <script>
-// Modificar la ruta de importación del Sidebar
 import Sidebar from '@/components/Sidebar.vue';
 
 export default {
@@ -76,11 +75,10 @@ export default {
 .admin-dashboard {
   display: flex;
   min-height: 100vh;
-  background-color: #f7f8f9;
+  background-color: #ffffff;
 
   .main-content {
     flex-grow: 1;
-    margin-left: 72px; /* Espaciado respecto al sidebar */
     padding: 2rem;
 
     .dashboard-title {
@@ -108,37 +106,38 @@ export default {
       background-color: #ffffff;
       border: 1px solid #c9c3ff;
       border-radius: 16px;
-      padding: 2rem 1.25rem;
+      padding: 2rem 1rem;
       text-align: center;
       text-decoration: none;
       color: #2b0a41;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-
+      transition: transform 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+      height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: space-between;
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        padding: 2.2rem 1rem;
       }
 
       .card-icon {
-        font-size: 2.2rem;
-        color: #856ca0;
-        margin-bottom: 0.8rem;
+        font-size: 2rem;
+        color: #6e3f93;
+        margin-bottom: 0.5rem;
       }
 
       .card-title {
-        font-size: 1.05rem;
+        font-size: 1.125rem;
         font-weight: 600;
         color: #2b0a41;
         margin-bottom: 0.5rem;
       }
 
       .card-description {
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         color: #666690;
         line-height: 1.4;
       }
