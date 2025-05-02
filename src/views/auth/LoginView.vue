@@ -14,7 +14,9 @@
 
           <form @submit.prevent="submitForm">
             <div class="mb-3">
-              <label for="email" class="form-label">Correo electrónico</label>
+              <label for="email" class="form-label">
+                <i class="fas fa-envelope me-2"></i> Correo electrónico
+              </label>
               <input
                 type="email"
                 id="email"
@@ -26,7 +28,9 @@
             </div>
 
             <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
+              <label for="password" class="form-label">
+                <i class="fas fa-key me-2"></i> Contraseña
+              </label>
               <input
                 type="password"
                 id="password"
@@ -132,20 +136,40 @@ export default {
 .form-label {
   font-weight: 600;
   color: #2b0a41;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  position: relative;
+  top: 0;
 }
 
 .form-control {
   border-radius: 8px;
   border: 1px solid #c9c3ff;
   padding: 0.75rem;
-  font-size: 0.875rem;
-  transition: border-color 0.3s ease;
+  font-size: 0.85rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .form-control:focus {
   border-color: #5e3ea1;
   outline: none;
+  box-shadow: 0 0 2px rgba(94, 62, 161, 0.2);
+}
+
+.form-control::placeholder {
+  color: #a0a0a0;
+  font-style: normal;
+}
+
+.form-label i {
+  font-size: 1rem;
+  color: #5e3ea1;
 }
 
 .btn {
@@ -169,14 +193,22 @@ export default {
 }
 
 .btn-secondary {
-  background-color: #6c757d;
+  background: #6c757d;
   border-color: #6c757d;
   color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #989ea4);
+  border-color: #6c757d;
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
+  background: linear-gradient(135deg, #6c757d, #989ea4);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .mb-2 {

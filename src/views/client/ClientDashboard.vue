@@ -3,7 +3,7 @@
     <div class="container">
       <div class="card">
         <div class="card-header">
-          <i class="fas fa-vote-yea me-2"></i>
+          <i class="fas fa-balance-scale me-2"></i>
           Panel de votación
         </div>
         <div class="card-body">
@@ -15,10 +15,10 @@
 
           <div class="action-buttons">
             <router-link to="/client/sessions" class="btn btn-primary">
-              Votar
+              <i class="fas fa-check-circle me-2"></i> Votar
             </router-link>
             <router-link to="/client/results" class="btn btn-secondary">
-              Ver resultados
+              <i class="fas fa-chart-bar me-2"></i> Ver resultados
             </router-link>
           </div>
         </div>
@@ -35,67 +35,67 @@ export default {
 
 <style scoped lang="scss">
 .client-dashboard {
-  margin-top: 3rem;
+  margin-top: 0.75rem;
 }
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 85vh;
+  min-height: 70vh;
 }
 
 .card {
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   border-radius: 18px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
   border: none;
 }
 
 .card-header {
-  background-color: #2b0a41;
+  background: linear-gradient(135deg, #2b0a41, #5e3ea1);
   color: #ffffff;
   text-align: center;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  padding: 1.2rem;
+  padding: 0.75rem;
   border-radius: 18px 18px 0 0;
 }
 
 .card-body {
-  padding: 2.5rem;
+  padding: 1.25rem;
   background-color: #ffffff;
   text-align: center;
 }
 
 .section-title {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: #2b0a41;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   border-bottom: 3px solid #c9c3ff;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
 }
 
 .text-muted {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #6c757d;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  margin-bottom: 1rem;
+  line-height: 1.4;
 }
 
 .action-buttons {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0.5rem; /* Menos espacio entre los botones */
   justify-content: center;
   align-items: center;
 }
 
 .btn {
-  font-size: 1.15rem;
-  padding: 0.9rem 1.6rem;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.25rem;
   border-radius: 12px;
   text-decoration: none;
   display: inline-block;
@@ -106,28 +106,28 @@ export default {
 }
 
 .btn-primary {
-  background-color: #2b0a41;
+  background: linear-gradient(135deg, #2b0a41, #5e3ea1);
   border-color: #2b0a41;
-  color: #ffffff;
+  color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary:hover {
-  background-color: #856ca0;
+  background: linear-gradient(135deg, #856ca0, #5e3ea1);
   border-color: #856ca0;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
-  background-color: #6c757d;
+  background: linear-gradient(135deg, #6c757d, #989ea4);
   border-color: #6c757d;
-  color: #ffffff;
+  color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
+  background: linear-gradient(135deg, #5a6268, #989ea4);
   border-color: #545b62;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);

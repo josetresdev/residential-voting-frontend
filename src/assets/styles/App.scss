@@ -54,12 +54,13 @@ body,
 
 .main-content {
   flex-grow: 1;
-  padding: 3rem 2rem; /* Mayor padding para que ocupe más espacio */
+  padding: 3rem 2rem; /* Aumenté el padding */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-  max-width: 100%;
+  width: 90%; /* Ajustado a 90% para que la galería tenga el espacio adecuado */
   margin: 0 auto;
+  max-width: 1140px; /* Límite de ancho */
 }
 
 .footer {
@@ -151,5 +152,10 @@ ul li {
 @media (max-width: 767px) {
   .card {
     width: 100%;
+  }
+
+  .footer-link {
+    display: block;
+    margin-bottom: 0.5rem;
   }
 }

@@ -130,8 +130,9 @@ export default {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-  max-width: 1140px;
+  width: 90%;
   margin: 0 auto;
+  max-width: 1140px;
 }
 
 .footer {
@@ -150,15 +151,16 @@ export default {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  transition: color 0.3s ease;
   font-weight: 600;
+  transition: color 0.3s ease, transform 0.3s ease;
 
   i {
     font-size: 1.2rem;
   }
 
   &:hover {
-    color: #c9c3ff;
+    color: #9c79e6;
+    transform: scale(1.1);
   }
 }
 
