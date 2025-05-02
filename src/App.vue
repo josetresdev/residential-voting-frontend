@@ -16,7 +16,54 @@
     </main>
 
     <footer class="footer text-center">
-      <small class="text-white">© 2025 Sistema de Votaciones Residencial</small>
+      <small class="text-white">
+        © 2025 Sistema de Votaciones Residencial
+        <span class="d-block">
+          <i class="fas fa-laptop-code me-2"></i>
+          Desarrollado por:
+          <span>
+            <strong>Jose Trespalacios</strong>
+          </span>
+        </span>
+        <span class="d-block">
+          <a
+            href="https://www.linkedin.com/in/josetrespalaciosb/"
+            target="_blank"
+            class="text-white footer-link"
+          >
+            <i class="fab fa-linkedin me-2"></i>
+            /in/josetrespalaciosb/
+          </a>
+        </span>
+        <span class="d-block">
+          <a
+            href="https://github.com/josetrespalaciosbedoya"
+            target="_blank"
+            class="text-white footer-link me-3"
+          >
+            <i class="fab fa-github me-2"></i>
+            josetrespalaciosbedoya (Cuenta principal)
+          </a>
+          <a
+            href="https://github.com/josetresdev"
+            target="_blank"
+            class="text-white footer-link"
+          >
+            <i class="fab fa-github me-2"></i>
+            josetresdev (Cuenta alternativa)
+          </a>
+        </span>
+        <div class="mt-2">
+          <a
+            href="mailto:josetrespalaciosbedoya@gmail.com"
+            target="_blank"
+            class="text-white footer-link"
+          >
+            <i class="fas fa-envelope me-2"></i>
+            josetrespalaciosbedoya@gmail.com
+          </a>
+        </div>
+      </small>
     </footer>
   </div>
 </template>
@@ -92,17 +139,41 @@ export default {
   text-align: center;
   padding: 1em;
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Adjusted for footer */
   box-shadow: none;
   border-radius: 16px 16px 0 0;
   width: 100%;
 }
 
-.text-white {
+.footer-link {
   color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  font-weight: 600;
+
+  i {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    color: #c9c3ff;
+  }
 }
 
 .me-2 {
   margin-right: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+@media (max-width: 767px) {
+  .footer-link {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
 }
 </style>

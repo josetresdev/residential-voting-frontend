@@ -95,12 +95,12 @@ html,
   border: none;
   background-color: #ffffff;
   margin-bottom: 0;
-  margin-top: 2rem; /* Espacio adicional arriba del card */
-  margin-bottom: 2rem; /* Espacio adicional abajo del card */
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .card-header {
-  background-color: #2b0a41;
+  background: linear-gradient(135deg, #2b0a41, #5e3ea1);
   color: #ffffff;
   text-align: center;
   font-size: 1.25rem;
