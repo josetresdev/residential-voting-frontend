@@ -190,23 +190,24 @@ export default {
   }
 
   .title {
-    font-size: 2rem;
-    font-weight: bold;
+    font-size: 2.2rem;
+    font-weight: 700;
     color: #2b0a41;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     border-bottom: 4px solid #2b0a41;
     padding-bottom: 0.5rem;
   }
 
   .text-muted {
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: #6c757d;
     margin-top: 2rem;
   }
 
   .table-wrapper {
     overflow-x: auto;
+    margin-top: 2rem;
   }
 
   .table {
@@ -216,11 +217,12 @@ export default {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     border-radius: 12px;
     overflow: hidden;
-    margin-top: 1rem;
 
-    th td {
-      padding: 1rem;
+    th,
+    td {
+      padding: 1.5rem;
       text-align: center;
+      font-size: 1rem;
     }
 
     thead {
@@ -242,9 +244,9 @@ export default {
   }
 
   .badge {
-    padding: 0.35rem 0.75rem;
+    padding: 0.45rem 0.85rem;
     border-radius: 50px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: bold;
     display: inline-block;
     text-transform: capitalize;
@@ -270,7 +272,7 @@ export default {
     border: none;
     cursor: pointer;
     padding: 0.4rem 0.6rem;
-    margin: 0 0.2rem;
+    margin: 0 0.3rem;
     font-size: 1.2rem;
     border-radius: 8px;
     transition: background-color 0.2s;

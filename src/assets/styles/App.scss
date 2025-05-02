@@ -54,7 +54,7 @@ body,
 
 .main-content {
   flex-grow: 1;
-  padding: 2rem 1rem;
+  padding: 3rem 2rem; /* Mayor padding para que ocupe más espacio */
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
@@ -85,14 +85,14 @@ body,
   background-color: #2b0a41;
   color: #ffffff;
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1.5rem; /* Aumentado tamaño */
   font-weight: 600;
-  padding: 1rem;
+  padding: 1.5rem; /* Aumentado padding */
   border-radius: 16px 16px 0 0;
 }
 
 .card-body {
-  padding: 1.5rem;
+  padding: 2rem; /* Aumentado padding */
   color: #6c757d;
   flex: 1;
   overflow-y: auto;
@@ -121,16 +121,16 @@ ul li {
 }
 
 .btn {
-  font-size: 0.875rem;
-  padding: 0.65rem 1.4rem;
+  font-size: 1rem; /* Mayor tamaño de fuente */
+  padding: 0.75rem 1.5rem; /* Aumenté el padding */
   border-radius: 999px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
   width: 100%;
-  max-width: 280px;
+  max-width: 320px; /* Aumenté el max-width */
   transition: all 0.3s ease;
   font-weight: 600;
   box-shadow: 0 4px 14px rgba(43, 10, 65, 0.15);
