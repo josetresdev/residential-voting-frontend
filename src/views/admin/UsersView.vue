@@ -1,5 +1,8 @@
 <template>
   <div class="users-view">
+    <!-- Sidebar Component -->
+    <AdminSidebar />
+
     <div class="container">
       <h1 class="title">
         <i class="fas fa-users me-2"></i> Gestión de usuarios
@@ -98,8 +101,14 @@
 </template>
 
 <script>
+// Importa el componente AdminSidebar
+import AdminSidebar from '@/components/Sidebar.vue';
+
 export default {
   name: 'UsersView',
+  components: {
+    AdminSidebar, // Registra el componente Sidebar
+  },
   data() {
     return {
       users: [],

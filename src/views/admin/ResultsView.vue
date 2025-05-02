@@ -1,86 +1,96 @@
 <template>
-  <div class="results-view container">
-    <h1 class="title">
-      <i class="fas fa-chart-bar me-2"></i> Resultados de votación por sesión
-    </h1>
+  <div class="app-container">
+    <Sidebar />
 
-    <div v-if="!sessions.length" class="text-center text-muted">
-      <i class="fas fa-info-circle me-2"></i> No hay resultados disponibles por
-      sesión.
-    </div>
+    <div class="results-view">
+      <div class="container">
+        <h1 class="title">
+          <i class="fas fa-chart-bar me-2"></i> Resultados de votación por
+          sesión
+        </h1>
 
-    <div v-else>
-      <div
-        class="session-results"
-        v-for="(session, index) in sessions"
-        :key="session.id"
-      >
-        <h3
-          class="session-title d-flex justify-content-between align-items-center"
-        >
-          <span>{{ index + 1 }} - {{ session.title }}</span>
-          <span class="badge bg-success">
-            <i class="fas fa-trophy me-2"></i> Ganador:
-            {{ getWinner(session.results) }}
-          </span>
-        </h3>
-
-        <div v-if="session.results.length === 0" class="text-center text-muted">
-          <i class="fas fa-info-circle me-2"></i> No hay resultados para esta
-          sesión.
+        <div v-if="!sessions.length" class="text-muted text-center">
+          No hay resultados disponibles por sesión.
         </div>
 
         <div v-else>
-          <b-collapse id="collapse-session-{{ session.id }}" class="my-3">
-            <b-card>
-              <div class="table-responsive">
-                <table class="table table-hover table-bordered">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Opción</th>
-                      <th>Votos</th>
-                      <th>Porcentaje</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(result, index) in session.results"
-                      :key="result.option_id"
-                    >
-                      <td>{{ index + 1 }}</td>
-                      <td>{{ result.option }}</td>
-                      <td>{{ result.votes }}</td>
-                      <td>
-                        <div class="progress-container">
-                          <div
-                            class="progress-bar"
-                            :style="{ width: `${result.percentage}%` }"
-                          ></div>
-                        </div>
-                        <span>{{ result.percentage }}%</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          <ul class="sessions-list">
+            <li
+              v-for="(session, index) in sessions"
+              :key="session.id"
+              class="session-item"
+            >
+              <div
+                class="session-header d-flex justify-content-between align-items-center"
+              >
+                <span>{{ index + 1 }} - {{ session.title }}</span>
+                <span class="badge bg-success">
+                  <i class="fas fa-trophy me-2"></i> Ganador:
+                  {{ getWinner(session.results) }}
+                </span>
               </div>
-            </b-card>
-          </b-collapse>
-        </div>
-      </div>
 
-      <div class="d-flex justify-content-between my-4">
-        <button class="btn btn-success" @click="exportResults">
-          <i class="fas fa-download me-2"></i> Exportar resultados
-        </button>
+              <div
+                v-if="session.results.length === 0"
+                class="text-center text-muted"
+              >
+                No hay resultados para esta sesión.
+              </div>
+
+              <div v-else>
+                <div class="table-responsive">
+                  <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Opción</th>
+                        <th>Votos</th>
+                        <th>Porcentaje</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="(result, index) in session.results"
+                        :key="result.option_id"
+                      >
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ result.option }}</td>
+                        <td>{{ result.votes }}</td>
+                        <td>
+                          <div class="progress-container">
+                            <div
+                              class="progress-bar"
+                              :style="{ width: `${result.percentage}%` }"
+                            ></div>
+                          </div>
+                          <span>{{ result.percentage }}%</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="d-flex justify-content-between my-4">
+            <button class="btn btn-success" @click="exportResults">
+              <i class="fas fa-download me-2"></i> Exportar resultados
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Sidebar from '@/components/Sidebar.vue';
+
 export default {
-  name: 'ResultsView',
+  components: {
+    Sidebar,
+  },
   data() {
     return {
       sessions: [
@@ -118,6 +128,7 @@ export default {
           ]);
         });
       });
+
       let csvContent = 'Sesión,Opción,Votos,Porcentaje\n';
       csvData.forEach((row) => {
         csvContent += row.join(',') + '\n';
@@ -129,10 +140,11 @@ export default {
       link.download = 'resultados_votacion_por_sesion.csv';
       link.click();
     },
+
     getWinner(results) {
-      const winner = results.reduce((prev, current) =>
-        prev.votes > current.votes ? prev : current
-      );
+      const winner = results.reduce((prev, current) => {
+        return prev.votes > current.votes ? prev : current;
+      });
       return winner.option;
     },
   },
@@ -140,36 +152,80 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.app-container {
+  display: flex;
+}
+
 .results-view {
-  padding: 2rem 1.5rem;
-  max-width: 1200px;
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+.container {
+  max-width: 1100px;
   margin: auto;
+  padding: 0 1.5rem;
 }
 
 .title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: bold;
   color: #2b0a41;
   text-align: center;
   margin-bottom: 2rem;
-  border-bottom: 3px solid #2b0a41;
+  border-bottom: 4px solid #2b0a41;
   padding-bottom: 0.5rem;
 }
 
-.session-results {
+.text-muted {
+  font-size: 1rem;
+  color: #6c757d;
   margin-top: 2rem;
 }
 
-.session-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #2b0a41;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #2b0a41;
-  padding-bottom: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.sessions-list {
+  list-style-type: none;
+  padding: 0;
+
+  .session-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #f9f4ff;
+    }
+
+    .session-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2b0a41;
+    }
+
+    .btn-vote {
+      background-color: #2b0a41;
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #5a36a0;
+      }
+    }
+  }
 }
 
 .table {
@@ -229,21 +285,5 @@ export default {
   &:hover {
     background-color: #218838;
   }
-}
-
-.d-flex {
-  margin-top: 2rem;
-}
-
-.text-muted {
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-top: 2rem;
-}
-
-.text-center {
-  font-size: 0.9rem;
-  color: #6c757d;
-  padding: 2rem;
 }
 </style>
