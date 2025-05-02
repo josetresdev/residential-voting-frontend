@@ -127,6 +127,40 @@ git clone https://github.com/josetresdev/residential-voting-frontend.git
 cd residential-voting-frontend
 ```
 
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+
+```
+npm run build
+```
+
+### Run your unit tests
+
+```
+npm run test:unit
+```
+
+### Run your end-to-end tests
+
+```
+npm run test:e2e
+```
+
+### Lints and fixes files
+
+```
+npm run lint
+```
+
 ## Backend
 
 Este es el **Frontend** de la aplicación. El **Backend** correspondiente a este sistema de votaciones está disponible en el siguiente repositorio:
