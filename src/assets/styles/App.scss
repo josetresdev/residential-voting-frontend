@@ -159,3 +159,246 @@ ul li {
     margin-bottom: 0.5rem;
   }
 }
+
+.users-view {
+  padding: 1.5rem;
+
+  .container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 1.2rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2b0a41;
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #2b0a41;
+    padding-bottom: 0.4rem;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin-top: 1.5rem;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background: linear-gradient(to bottom, #fff, #f8f9fc);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: 0.7rem;
+      text-align: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    thead {
+      background: linear-gradient(45deg, #2b0a41, #5a36a0);
+      color: white;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f0f0f0;
+
+      &:hover {
+        background-color: #f9f4ff;
+      }
+    }
+  }
+
+  .badge {
+    padding: 0.3rem 0.6rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    text-transform: capitalize;
+  }
+
+  .badge-admin {
+    background-color: #2b0a41;
+    color: white;
+  }
+
+  .badge-moderator {
+    background-color: #17a2b8;
+    color: white;
+  }
+
+  .badge-user {
+    background-color: #ffc107;
+    color: black;
+  }
+
+  .icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.7rem;
+    margin: 0 0.3rem;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+
+    &.edit {
+      color: #2b0a41;
+
+      &:hover {
+        background-color: #eae2f8;
+      }
+    }
+
+    &.delete {
+      color: #dc3545;
+
+      &:hover {
+        background-color: #fdeaea;
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    .page-button {
+      background-color: #2b0a41;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+
+      &:hover {
+        background-color: #5a36a0;
+      }
+
+      &:disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+      }
+    }
+
+    .page-info {
+      font-size: 0.85rem;
+      color: #333;
+    }
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    padding: 1rem;
+  }
+
+  .modal-card {
+    background: #fff;
+    padding: 1.2rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 430px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    font-size: 0.85rem;
+
+    h3 {
+      font-size: 1.1rem;
+      color: #2b0a41;
+      margin: 0;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #2b0a41;
+      }
+    }
+
+    form {
+      .form-group {
+        margin-bottom: 1.2rem;
+
+        label {
+          font-weight: bold;
+          color: #333;
+          display: block;
+          margin-bottom: 0.5rem;
+        }
+
+        input,
+        select {
+          width: 100%;
+          padding: 0.8rem;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 0.9rem;
+        }
+      }
+
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+
+        button {
+          padding: 0.6rem 1.2rem;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: bold;
+
+          &.btn-confirm {
+            background-color: #2b0a41;
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #5a36a0;
+            }
+          }
+
+          &.btn-cancel {
+            background-color: #ccc;
+            color: black;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #bbb;
+            }
+          }
+        }
+      }
+    }
+  }
+}

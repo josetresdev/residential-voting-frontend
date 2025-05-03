@@ -118,13 +118,12 @@
 </template>
 
 <script>
-// Importa el componente AdminSidebar
 import AdminSidebar from '@/components/Sidebar.vue';
 
 export default {
   name: 'UsersView',
   components: {
-    AdminSidebar, // Registra el componente Sidebar
+    AdminSidebar,
   },
   data() {
     return {
@@ -141,7 +140,7 @@ export default {
     };
   },
   mounted() {
-    this.loadUsers();
+    this.loadUsers(); // Cargar datos estáticos al montar el componente
   },
   computed: {
     paginatedUsers() {
@@ -152,6 +151,7 @@ export default {
   },
   methods: {
     loadUsers() {
+      // Datos estáticos de ejemplo
       this.users = [
         {
           id: 1,
@@ -438,75 +438,71 @@ export default {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
+    }
 
-      .close-btn {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        color: #999;
-        cursor: pointer;
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.2s;
 
-        &:hover {
+      &:hover {
+        color: #2b0a41;
+      }
+    }
+
+    form {
+      .form-group {
+        margin-bottom: 1.2rem;
+        label {
+          font-weight: bold;
           color: #333;
+          display: block;
+          margin-bottom: 0.5rem;
         }
-      }
-    }
-
-    .form-group {
-      margin-bottom: 1.2rem;
-
-      label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.4rem;
-      }
-
-      input,
-      select {
-        width: 100%;
-        padding: 0.6rem;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 0.9rem;
-
-        &:focus {
-          border-color: #2b0a41;
-          outline: none;
-        }
-      }
-    }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      margin-top: 1.3rem;
-
-      .btn-confirm {
-        background-color: #2b0a41;
-        color: white;
-        padding: 0.5rem 1.3rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #5a36a0;
+        input,
+        select {
+          width: 100%;
+          padding: 0.8rem;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          font-size: 0.9rem;
         }
       }
 
-      .btn-cancel {
-        background-color: #f3f3f3;
-        color: #555;
-        padding: 0.5rem 1.3rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
 
-        &:hover {
-          background-color: #e1e1e1;
+        button {
+          padding: 0.6rem 1.2rem;
+          border: none;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: bold;
+
+          &.btn-confirm {
+            background-color: #2b0a41;
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #5a36a0;
+            }
+          }
+
+          &.btn-cancel {
+            background-color: #ccc;
+            color: black;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #bbb;
+            }
+          }
         }
       }
     }
