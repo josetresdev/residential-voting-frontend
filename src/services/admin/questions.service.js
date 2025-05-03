@@ -1,49 +1,23 @@
 let questions = [
   {
     id: 1,
-    text: '¿Qué opinas sobre la situación actual del país?',
-  },
-  {
-    id: 2,
-    text: '¿Cuál es tu meta personal para el próximo año?',
+    uuid: '5b7519b2-9582-46ae-a9a2-90408be404db',
+    title: '¿Qué proyecto prefieres?',
+    text: '¿Qué proyecto prefieres?',
+    status: 'active',
   },
   {
     id: 3,
-    text: '¿Cómo evalúas la calidad de los servicios públicos?',
-  },
-  {
-    id: 4,
-    text: '¿Qué tan importante es para ti el medio ambiente?',
-  },
-  {
-    id: 5,
-    text: '¿Qué harías para mejorar la seguridad en tu comunidad?',
-  },
-  {
-    id: 6,
-    text: '¿Crees que la educación debería ser gratuita en todos los niveles?',
-  },
-  {
-    id: 7,
-    text: '¿Qué propuestas tienes para mejorar el transporte público?',
-  },
-  {
-    id: 8,
-    text: '¿Qué tan satisfecho estás con el sistema de salud actual?',
-  },
-  {
-    id: 9,
-    text: '¿Cuál es tu postura respecto al teletrabajo a largo plazo?',
-  },
-  {
-    id: 10,
-    text: '¿Qué actividades promueves para cuidar el medio ambiente?',
+    uuid: '4cfde19c-eac8-4d26-8a97-6318f0d98b46',
+    title: '¿Estás a favor de la propuesta?',
+    text: '¿Estás a favor de la propuesta?',
+    status: 'active',
   },
 ];
 
 export default {
   getQuestions() {
-    return [...questions]; // Retorna una copia para evitar mutación accidental
+    return [...questions];
   },
 
   saveQuestion(question) {
