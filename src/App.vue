@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="app-wrapper">
+    <LoadingSpinner v-if="isLoading" />
     <nav class="navbar-custom">
       <div
         class="container-fluid d-flex justify-content-between align-items-center"
@@ -12,7 +13,9 @@
     </nav>
 
     <main class="main-content">
-      <router-view />
+      <transition name="fade" mode="out-in">
+        <router-view />
+      </transition>
     </main>
 
     <footer class="footer text-center">
@@ -21,9 +24,7 @@
         <span class="d-block">
           <i class="fas fa-laptop-code me-2"></i>
           Desarrollado por:
-          <span>
-            <strong>Jose Trespalacios</strong>
-          </span>
+          <strong>Jose Trespalacios</strong>
         </span>
         <span class="d-block">
           <a
@@ -69,8 +70,30 @@
 </template>
 
 <script>
+import LoadingSpinner from './components/LoadingSpinner.vue';
+
 export default {
   name: 'App',
+  components: {
+    LoadingSpinner,
+  },
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
+  watch: {
+    $route() {
+      this.isLoading = true;
+    },
+  },
+  created() {
+    this.$router.afterEach(() => {
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
+    });
+  },
 };
 </script>
 
