@@ -11,52 +11,15 @@
       </p>
 
       <div class="dashboard-grid">
-        <router-link to="/administrador/usuarios" class="dashboard-card">
-          <i class="fas fa-users card-icon"></i>
-          <h2 class="card-title">Gestión de usuarios</h2>
-          <p class="card-description">
-            Agrega, edita o elimina cuentas de votantes y administradores
-            registrados en el sistema.
-          </p>
-        </router-link>
-
-        <router-link to="/administrador/preguntas" class="dashboard-card">
-          <i class="fas fa-question-circle card-icon"></i>
-          <h2 class="card-title">Gestión de preguntas</h2>
-          <p class="card-description">
-            Crea y administra las preguntas que serán presentadas durante las
-            sesiones de votación.
-          </p>
-        </router-link>
-
-        <router-link to="/administrador/opciones" class="dashboard-card">
-          <i class="fas fa-list-ul card-icon"></i>
-          <h2 class="card-title">Gestión de opciones</h2>
-          <p class="card-description">
-            Define y organiza las opciones de respuesta disponibles para cada
-            pregunta activa.
-          </p>
-        </router-link>
-
         <router-link
-          to="/administrador/sesiones-votacion"
+          v-for="item in dashboardItems"
+          :key="item.id"
+          :to="item.route"
           class="dashboard-card"
         >
-          <i class="fas fa-calendar-alt card-icon"></i>
-          <h2 class="card-title">Sesiones de votación</h2>
-          <p class="card-description">
-            Programa, habilita y gestiona las sesiones de votación activas y
-            finalizadas.
-          </p>
-        </router-link>
-
-        <router-link to="/administrador/resultados" class="dashboard-card">
-          <i class="fas fa-chart-pie card-icon"></i>
-          <h2 class="card-title">Resultados</h2>
-          <p class="card-description">
-            Consulta y analiza los resultados obtenidos al cierre de las
-            sesiones de votación.
-          </p>
+          <i :class="item.icon + ' card-icon'"></i>
+          <h2 class="card-title">{{ item.title }}</h2>
+          <p class="card-description">{{ item.description }}</p>
         </router-link>
       </div>
     </main>
@@ -65,11 +28,25 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import adminDashboardService from '@/services/admin/adminDashboard.service.js';
 
 export default {
   name: 'AdminDashboard',
   components: {
     Sidebar,
+  },
+  data() {
+    return {
+      dashboardItems: [],
+    };
+  },
+  created() {
+    this.loadDashboardItems();
+  },
+  methods: {
+    loadDashboardItems() {
+      this.dashboardItems = adminDashboardService.getDashboardItems();
+    },
   },
 };
 </script>

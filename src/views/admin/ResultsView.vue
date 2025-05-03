@@ -86,6 +86,7 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import votingResultsService from '@/services/admin/results.service.js';
 
 export default {
   components: {
@@ -93,60 +94,22 @@ export default {
   },
   data() {
     return {
-      sessions: [
-        {
-          id: 1,
-          title: 'Elección de presidente',
-          results: [
-            { option_id: 1, option: 'Candidato A', votes: 120, percentage: 45 },
-            { option_id: 2, option: 'Candidato B', votes: 100, percentage: 38 },
-            { option_id: 3, option: 'Candidato C', votes: 50, percentage: 17 },
-          ],
-        },
-        {
-          id: 2,
-          title: 'Elección de vicepresidente',
-          results: [
-            { option_id: 1, option: 'Candidato D', votes: 130, percentage: 50 },
-            { option_id: 2, option: 'Candidato E', votes: 70, percentage: 27 },
-            { option_id: 3, option: 'Candidato F', votes: 50, percentage: 23 },
-          ],
-        },
-      ],
+      sessions: [],
     };
   },
   methods: {
+    async loadSessions() {
+      this.sessions = await votingResultsService.getVotingResults();
+    },
     exportResults() {
-      const csvData = [];
-      this.sessions.forEach((session) => {
-        session.results.forEach((result) => {
-          csvData.push([
-            session.title,
-            result.option,
-            result.votes,
-            result.percentage,
-          ]);
-        });
-      });
-
-      let csvContent = 'Sesión,Opción,Votos,Porcentaje\n';
-      csvData.forEach((row) => {
-        csvContent += row.join(',') + '\n';
-      });
-
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'resultados_votacion_por_sesion.csv';
-      link.click();
+      votingResultsService.exportResultsToCSV(this.sessions);
     },
-
     getWinner(results) {
-      const winner = results.reduce((prev, current) => {
-        return prev.votes > current.votes ? prev : current;
-      });
-      return winner.option;
+      return votingResultsService.getWinner(results);
     },
+  },
+  mounted() {
+    this.loadSessions();
   },
 };
 </script>

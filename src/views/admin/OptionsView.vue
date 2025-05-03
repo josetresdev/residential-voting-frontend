@@ -29,7 +29,6 @@
       </div>
     </div>
 
-    <!-- Modal para editar y responder -->
     <div v-if="showModal" class="modal-overlay">
       <div class="modal-content">
         <h2 class="modal-title">
@@ -86,6 +85,7 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import optionsService from '@/services/admin/options.service.js';
 
 export default {
   components: {
@@ -93,40 +93,20 @@ export default {
   },
   data() {
     return {
-      questions: [
-        {
-          id: 1,
-          title: '¿Cuál es tu opinión sobre el proyecto de ley A?',
-          options: ['Sí', 'No', 'Tal vez'],
-        },
-        {
-          id: 2,
-          title: '¿Qué piensas sobre el presupuesto de la comunidad?',
-          options: ['Sí', 'No', 'Tal vez'],
-        },
-        {
-          id: 3,
-          title: '¿Te gustaría ver un nuevo parque local en la ciudad?',
-          options: ['Sí', 'No', 'Tal vez'],
-        },
-        {
-          id: 4,
-          title: '¿Qué opinas sobre la mejora de los servicios de transporte?',
-          options: ['Sí', 'No', 'Tal vez'],
-        },
-        {
-          id: 5,
-          title: '¿Estás a favor de la creación de un centro cultural?',
-          options: ['Sí', 'No', 'Tal vez'],
-        },
-      ],
+      questions: [],
       showModal: false,
       selectedQuestion: null,
     };
   },
+  created() {
+    this.loadQuestions();
+  },
   methods: {
+    loadQuestions() {
+      this.questions = optionsService.getOptions();
+    },
     openModal(question) {
-      this.selectedQuestion = { ...question }; // Clonamos para evitar mutar el original
+      this.selectedQuestion = { ...question };
       this.showModal = true;
     },
     closeModal() {
@@ -134,20 +114,27 @@ export default {
       this.selectedQuestion = null;
     },
     submitEditedQuestion() {
-      // Actualizamos la pregunta con las opciones editadas
-      const index = this.questions.findIndex(
-        (question) => question.id === this.selectedQuestion.id
-      );
-      if (index !== -1) {
-        this.questions[index] = { ...this.selectedQuestion };
-      }
+      const updatedQuestion = { ...this.selectedQuestion };
+
+      if (
+        !updatedQuestion ||
+        !updatedQuestion.options ||
+        !updatedQuestion.questionId
+      )
+        return;
+
+      optionsService.saveOptions(updatedQuestion);
+
+      this.loadQuestions();
       this.closeModal();
     },
     addOption() {
-      this.selectedQuestion.options.push('');
+      if (this.selectedQuestion) {
+        this.selectedQuestion.options.push('');
+      }
     },
     removeOption(index) {
-      if (this.selectedQuestion.options.length > 1) {
+      if (this.selectedQuestion && this.selectedQuestion.options.length > 1) {
         this.selectedQuestion.options.splice(index, 1);
       }
     },

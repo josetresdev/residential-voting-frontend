@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import voteQuestionService from '@/services/client/voteQuestion.service';
+
 export default {
   data() {
     return {
@@ -18,17 +20,15 @@ export default {
   },
   async created() {
     const id = this.$route.params.id;
-    const res = await fetch(`/api/questions/${id}`);
-    this.question = await res.json();
+    const questionData = await voteQuestionService.getQuestion(id);
+    if (questionData) {
+      this.question = questionData;
+    }
   },
   methods: {
     async vote(optionId) {
-      await fetch('/api/votes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ option_id: optionId }),
-      });
-      alert('Voto registrado');
+      const result = await voteQuestionService.vote(optionId);
+      alert(result.message);
     },
   },
 };

@@ -1,6 +1,5 @@
 <template>
   <div class="users-view">
-    <!-- Sidebar Component -->
     <AdminSidebar />
 
     <div class="container">
@@ -44,6 +43,7 @@
             </tr>
           </tbody>
         </table>
+
         <div class="pagination">
           <button
             class="page-button"
@@ -63,6 +63,7 @@
         </div>
       </div>
     </div>
+
     <div v-if="showModal" class="modal-backdrop" @click.self="closeModal">
       <transition name="fade-scale">
         <div class="modal-card" v-show="showModal">
@@ -117,6 +118,7 @@
 
 <script>
 import AdminSidebar from '@/components/Sidebar.vue';
+import userService from '@/services/admin/users.service.js';
 
 export default {
   name: 'UsersView',
@@ -137,80 +139,18 @@ export default {
       usersPerPage: 5,
     };
   },
-  mounted() {
-    this.loadUsers();
-  },
   computed: {
     paginatedUsers() {
-      const start = (this.currentPage - 1) * this.usersPerPage;
-      const end = start + this.usersPerPage;
-      return this.users.slice(start, end);
+      return userService.paginateUsers(
+        this.users,
+        this.currentPage,
+        this.usersPerPage
+      );
     },
   },
   methods: {
-    loadUsers() {
-      this.users = [
-        {
-          id: 1,
-          name: 'Juan Pérez',
-          email: 'juan@example.com',
-          role: 'Administrador',
-        },
-        {
-          id: 2,
-          name: 'Ana Gómez',
-          email: 'ana@example.com',
-          role: 'Usuario',
-        },
-        {
-          id: 3,
-          name: 'Carlos Ruiz',
-          email: 'carlos@example.com',
-          role: 'Moderador',
-        },
-        {
-          id: 4,
-          name: 'Marta López',
-          email: 'marta@example.com',
-          role: 'Usuario',
-        },
-        {
-          id: 5,
-          name: 'David García',
-          email: 'david@example.com',
-          role: 'Administrador',
-        },
-        {
-          id: 6,
-          name: 'Pedro Sánchez',
-          email: 'pedro@example.com',
-          role: 'Moderador',
-        },
-        {
-          id: 7,
-          name: 'Lucía Fernández',
-          email: 'lucia@example.com',
-          role: 'Usuario',
-        },
-        {
-          id: 8,
-          name: 'Javier Rodríguez',
-          email: 'javier@example.com',
-          role: 'Administrador',
-        },
-        {
-          id: 9,
-          name: 'Beatriz Martínez',
-          email: 'beatriz@example.com',
-          role: 'Moderador',
-        },
-        {
-          id: 10,
-          name: 'Luis Gómez',
-          email: 'luis@example.com',
-          role: 'Usuario',
-        },
-      ];
+    async loadUsers() {
+      this.users = await userService.getUsers();
     },
     openEditModal(user) {
       this.editUserData = { ...user };
@@ -220,32 +160,17 @@ export default {
       this.showModal = false;
     },
     saveEdit() {
-      const index = this.users.findIndex((u) => u.id === this.editUserData.id);
-      if (index !== -1) {
-        this.users.splice(index, 1, { ...this.editUserData });
-        this.closeModal();
-      }
+      this.users = userService.updateUser(this.users, this.editUserData);
+      this.closeModal();
     },
     deleteUser(userId) {
-      this.users = this.users.filter((u) => u.id !== userId);
+      this.users = userService.deleteUser(this.users, userId);
     },
     getRoleClass(role) {
-      switch (role) {
-        case 'Administrador':
-          return 'badge-admin';
-        case 'Moderador':
-          return 'badge-moderator';
-        case 'Usuario':
-        default:
-          return 'badge-user';
-      }
+      return userService.getRoleClass(role);
     },
     sortTable(field) {
-      this.users.sort((a, b) => {
-        if (a[field] < b[field]) return -1;
-        if (a[field] > b[field]) return 1;
-        return 0;
-      });
+      this.users = userService.sortUsers(this.users, field);
     },
     prevPage() {
       if (this.currentPage > 1) this.currentPage--;
@@ -254,6 +179,9 @@ export default {
       if (this.currentPage * this.usersPerPage < this.users.length)
         this.currentPage++;
     },
+  },
+  mounted() {
+    this.loadUsers();
   },
 };
 </script>

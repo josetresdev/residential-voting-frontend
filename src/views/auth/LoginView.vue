@@ -50,13 +50,13 @@
           </form>
 
           <div class="text-center mt-2">
-            <router-link
+            <!-- <router-link
               to="/administrador/panel"
               class="btn btn-secondary mb-2"
             >
               <i class="fas fa-cogs me-2"></i>
               Ir a la vista de administrador
-            </router-link>
+            </router-link> -->
             <router-link to="/cliente/panel" class="btn btn-secondary">
               <i class="fas fa-user me-2"></i>
               Ir a la vista de cliente
@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import loginService from '@/services/auth/login.service';
+
 export default {
   name: 'LoginView',
   data() {
@@ -78,9 +80,13 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      console.log('Formulario enviado', this.email, this.password);
-      this.$router.push('/client/dashboard');
+    async submitForm() {
+      const response = await loginService.loginUser(this.email, this.password);
+      if (response.success) {
+        this.$router.push('/administrador/panel');
+      } else {
+        alert(response.message);
+      }
     },
   },
 };

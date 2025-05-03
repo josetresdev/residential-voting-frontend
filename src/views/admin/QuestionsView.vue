@@ -8,10 +8,7 @@
           <i class="fas fa-question-circle me-2"></i> Gestionar preguntas
         </h1>
 
-        <div
-          v-if="filteredQuestions.length === 0"
-          class="text-muted text-center"
-        >
+        <div v-if="paginated.length === 0" class="text-muted text-center">
           Actualmente no tienes preguntas disponibles. Por favor, agrega
           algunas.
         </div>
@@ -26,11 +23,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(question, index) in filteredQuestions"
-                :key="question.id"
-              >
-                <td>{{ index + 1 }}</td>
+              <tr v-for="(question, index) in paginated" :key="question.id">
+                <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
                 <td>{{ question.text }}</td>
                 <td>
                   <button
@@ -108,6 +102,7 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import questionsService from '@/services/admin/questions.service.js';
 
 export default {
   name: 'QuestionsView',
@@ -116,67 +111,75 @@ export default {
   },
   data() {
     return {
-      questions: [
-        { id: 1, text: '¿Qué opinas sobre la situación actual del país?' },
-        { id: 2, text: '¿Cuál es tu meta personal para el próximo año?' },
-        { id: 3, text: '¿Cómo evalúas la calidad de los servicios públicos?' },
-        { id: 4, text: '¿Qué tan importante es para ti el medio ambiente?' },
-        {
-          id: 5,
-          text: '¿Qué harías para mejorar la seguridad en tu comunidad?',
-        },
-      ],
       searchQuery: '',
-      isModalOpen: false,
-      currentQuestion: null,
       currentPage: 1,
       itemsPerPage: 5,
+      filtered: [],
+      paginated: [],
+      totalPages: 1,
+      isModalOpen: false,
+      currentQuestion: null,
     };
   },
-  computed: {
-    filteredQuestions() {
-      return this.questions
-        .filter((question) =>
-          question.text.toLowerCase().includes(this.searchQuery.toLowerCase())
-        )
-        .slice(
-          (this.currentPage - 1) * this.itemsPerPage,
-          this.currentPage * this.itemsPerPage
-        );
-    },
-    totalPages() {
-      return Math.ceil(this.questions.length / this.itemsPerPage);
+  mounted() {
+    this.refreshQuestions();
+  },
+  watch: {
+    searchQuery() {
+      this.currentPage = 1;
+      this.refreshQuestions();
     },
   },
   methods: {
+    refreshQuestions() {
+      const filtered = questionsService.filterQuestions(this.searchQuery);
+      const paginated = questionsService.paginateQuestions(
+        filtered,
+        this.currentPage,
+        this.itemsPerPage
+      );
+      this.totalPages = questionsService.getTotalPages(
+        filtered,
+        this.itemsPerPage
+      );
+      this.filtered = filtered;
+      this.paginated = paginated;
+
+      console.log('🔎 Paginated:', this.paginated);
+    },
+
     openEditModal(question) {
       this.currentQuestion = { ...question };
       this.isModalOpen = true;
     },
+
     closeModal() {
       this.isModalOpen = false;
     },
+
     saveQuestion() {
-      const index = this.questions.findIndex(
-        (q) => q.id === this.currentQuestion.id
-      );
-      if (index !== -1) {
-        this.questions.splice(index, 1, { ...this.currentQuestion });
-        this.closeModal();
-      } else {
-        this.currentQuestion.id = Date.now();
-        this.questions.push(this.currentQuestion);
-        this.closeModal();
+      questionsService.saveQuestion(this.currentQuestion);
+      this.closeModal();
+      this.refreshQuestions();
+    },
+
+    deleteQuestion(id) {
+      questionsService.deleteQuestion(id);
+      this.refreshQuestions();
+    },
+
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.refreshQuestions();
       }
     },
-    deleteQuestion(id) {
-      this.questions = this.questions.filter((question) => question.id !== id);
-    },
-    previousPage() {
-      if (this.currentPage > 1) this.currentPage--;
-    },
+
     nextPage() {
-      if (this.currentPage < this.totalPages) this.currentPage++;
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+        this.refreshQuestions();
+      }
     },
   },
 };

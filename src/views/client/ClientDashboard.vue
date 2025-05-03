@@ -14,10 +14,13 @@
           </p>
 
           <div class="action-buttons">
-            <router-link to="/client/sessions" class="btn btn-primary">
+            <router-link
+              to="/cliente/sesiones-votacion"
+              class="btn btn-primary"
+            >
               <i class="fas fa-check-circle me-2"></i> Votar
             </router-link>
-            <router-link to="/client/results" class="btn btn-secondary">
+            <router-link to="/cliente/resultados" class="btn btn-secondary">
               <i class="fas fa-chart-bar me-2"></i> Ver resultados
             </router-link>
           </div>
@@ -28,8 +31,13 @@
 </template>
 
 <script>
+import clientDashboardService from '@/services/client/clientDashboard.service.js';
+
 export default {
   name: 'ClientDashboard',
+  mounted() {
+    clientDashboardService.trackClientAccess();
+  },
 };
 </script>
 

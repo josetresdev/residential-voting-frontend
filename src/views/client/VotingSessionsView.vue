@@ -103,116 +103,24 @@
 </template>
 
 <script>
+import votingSessionsService from '@/services/client/votingSessions.service';
+
 export default {
   data() {
     return {
-      sessions: [
-        {
-          id: 1,
-          title: 'Elección de presidente de la junta de administración',
-          start_date: '2025-05-01',
-          end_date: '2025-05-10',
-          questions: [
-            {
-              text: '¿Quién debe ser el nuevo presidente de la junta?',
-              options: ['Juan Pérez', 'Ana Gómez', 'Carlos Rodríguez'],
-            },
-            {
-              text: '¿Aprobar el presupuesto de mantenimiento 2025?',
-              options: ['Sí', 'No'],
-            },
-          ],
-        },
-        {
-          id: 2,
-          title: 'Votación para elegir secretario de la junta',
-          start_date: '2025-04-25',
-          end_date: '2025-05-05',
-          questions: [
-            {
-              text: '¿Aprobar al candidato para secretario de la junta?',
-              options: ['Sí', 'No'],
-            },
-          ],
-        },
-        {
-          id: 3,
-          title: 'Elección de tesorero de la junta de administración',
-          start_date: '2025-05-02',
-          end_date: '2025-05-15',
-          questions: [
-            {
-              text: '¿Quién debe ser el nuevo tesorero de la junta?',
-              options: ['Pedro Sánchez', 'María López', 'José Ramírez'],
-            },
-          ],
-        },
-        {
-          id: 4,
-          title: 'Votación para elegir vocales',
-          start_date: '2025-05-10',
-          end_date: '2025-05-20',
-          questions: [
-            {
-              text: '¿Aprobar los nuevos vocales propuestos?',
-              options: ['Sí', 'No'],
-            },
-          ],
-        },
-        {
-          id: 5,
-          title: 'Votación para modificar el reglamento',
-          start_date: '2025-05-05',
-          end_date: '2025-05-15',
-          questions: [
-            {
-              text: '¿Aprobar la modificación del reglamento?',
-              options: ['Sí', 'No'],
-            },
-          ],
-        },
-        {
-          id: 6,
-          title: 'Elección de representante ante la asamblea',
-          start_date: '2025-04-30',
-          end_date: '2025-05-10',
-          questions: [
-            {
-              text: '¿Quién debe ser el representante ante la asamblea?',
-              options: ['Laura Fernández', 'Carlos Mendoza', 'Ana Silva'],
-            },
-          ],
-        },
-        {
-          id: 7,
-          title: 'Elección de presidente del comité de seguridad',
-          start_date: '2025-04-15',
-          end_date: '2025-04-30',
-          questions: [
-            {
-              text: '¿Quién debe ser el presidente del comité de seguridad?',
-              options: ['Juan Martín', 'Isabel Cruz', 'Ricardo Díaz'],
-            },
-          ],
-        },
-        {
-          id: 8,
-          title: 'Votación sobre el presupuesto de eventos',
-          start_date: '2025-04-28',
-          end_date: '2025-05-05',
-          questions: [
-            {
-              text: '¿Aprobar el presupuesto de eventos 2025?',
-              options: ['Sí', 'No'],
-            },
-          ],
-        },
-      ],
+      sessions: [],
       currentSession: null,
       isModalOpen: false,
       answers: [],
       error: null,
     };
+  },
+  async created() {
+    try {
+      this.sessions = await votingSessionsService.getActiveSessions();
+    } catch (err) {
+      this.error = 'No se pudieron cargar las sesiones activas.';
+    }
   },
   methods: {
     formatDate(date) {
@@ -227,10 +135,18 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    submitVote() {
-      console.log('Voto enviado:', this.answers);
-      this.closeModal();
-      alert('Voto registrado correctamente');
+    async submitVote() {
+      try {
+        const payload = {
+          session_id: this.currentSession.id,
+          answers: this.answers,
+        };
+        const response = await votingSessionsService.submitVote(payload);
+        alert(response.message);
+        this.closeModal();
+      } catch (error) {
+        alert('Error al enviar el voto. Intenta de nuevo.');
+      }
     },
   },
 };
