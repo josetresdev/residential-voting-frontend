@@ -23,24 +23,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.not-found {
-  padding: 3rem 0;
-}
-
-.not-found .container {
-  max-width: 600px;
-}
-
-.not-found h1 {
-  font-size: 5rem;
-  font-weight: bold;
-}
-
-.not-found .lead {
-  font-size: 1.25rem;
-}
-
-.not-found .btn {
-  margin-top: 1rem;
-}
+@import '@/assets/styles/NotFound.scss';
 </style>

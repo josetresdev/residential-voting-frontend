@@ -17,14 +17,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.footer {
-  background-color: #f8f9fa;
-  border-top: 1px solid #eaeaea;
-  font-size: 0.875rem;
-  color: #6c757d;
-}
-
-.footer p {
-  margin: 0;
-}
+@import '@/assets/styles/components/Footer.scss';
 </style>

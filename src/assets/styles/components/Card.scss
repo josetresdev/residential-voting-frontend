@@ -1,0 +1,22 @@
+.card-base {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.card-base:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    font-weight: 600;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.card-footer {
+    border-top: 1px solid #eee;
+    padding-top: 0.5rem;
+}

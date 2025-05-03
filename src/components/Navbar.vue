@@ -35,24 +35,10 @@
 
 <script>
 export default {
-  name: 'AppNavbar', // Cambiado a nombre multi-palabra
+  name: 'AppNavbar',
 };
 </script>
 
 <style scoped lang="scss">
-.navbar {
-  margin-bottom: 1rem;
-}
-
-.navbar-brand {
-  font-weight: bold;
-}
-
-.nav-link {
-  color: #495057;
-}
-
-.nav-link:hover {
-  color: #007bff;
-}
+@import '@/assets/styles/components/Navbar.scss';
 </style>

@@ -29,62 +29,62 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/login',
+    path: '/iniciar-sesion',
     name: 'login',
     component: LoginView,
   },
 
   // Rutas de administrador
   {
-    path: '/admin/dashboard',
+    path: '/administrador/panel',
     name: 'admin-dashboard',
     component: AdminDashboard,
   },
   {
-    path: '/admin/options',
+    path: '/administrador/opciones',
     name: 'admin-options',
     component: OptionsView,
   },
   {
-    path: '/admin/questions',
+    path: '/administrador/preguntas',
     name: 'admin-questions',
     component: QuestionsView,
   },
   {
-    path: '/admin/results',
+    path: '/administrador/resultados',
     name: 'admin-results',
     component: ResultsView,
   },
   {
-    path: '/admin/sessions',
+    path: '/administrador/sesiones-votacion',
     name: 'admin-sessions',
     component: SessionsView,
   },
   {
-    path: '/admin/users',
+    path: '/administrador/usuarios',
     name: 'admin-users',
     component: UsersView,
   },
 
   // Rutas de cliente
   {
-    path: '/client/dashboard',
+    path: '/cliente/panel',
     name: 'client-dashboard',
     component: ClientDashboard,
   },
   {
-    path: '/client/vote/:sessionId',
+    path: '/cliente/votar/:sessionId',
     name: 'client-vote-question',
     component: VoteQuestionView,
     props: true,
   },
   {
-    path: '/client/sessions',
+    path: '/cliente/sesiones-votacion',
     name: 'client-voting-sessions',
     component: VotingSessionsView,
   },
   {
-    path: '/client/results',
+    path: '/cliente/resultados',
     name: 'client-results',
     component: ClientResultsView,
   },

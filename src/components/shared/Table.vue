@@ -53,21 +53,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.table-responsive {
-  border: 1px solid #eaeaea;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.table {
-  margin-bottom: 0;
-}
-
-thead {
-  background-color: #f8f9fa;
-}
-
-th {
-  font-weight: 600;
-}
+@import '@/assets/styles/components/Table.scss';
 </style>
