@@ -1,190 +1,206 @@
 <template>
-  <div class="app-container">
-    <Sidebar />
+  <div class="questions-view">
+    <AdminSidebar />
+    <div class="container">
+      <BaseBreadcrumb
+        :crumbs="[
+          { label: 'Inicio', to: '/' },
+          { label: 'Gestión de preguntas' },
+        ]"
+      />
+      <div class="header-actions">
+        <button class="btn-filters" @click="toggleFilters">
+          <i class="fas fa-filter"></i> Desplegar filtros
+        </button>
+        <button class="btn-create" @click="openCreateModal">
+          <i class="fas fa-plus"></i> Crear nueva
+        </button>
+      </div>
 
-    <div class="questions-view">
-      <div class="container">
-        <h1 class="title">
-          <i class="fas fa-question-circle me-2"></i> Gestionar preguntas
-        </h1>
+      <!-- Panel de filtros -->
+      <div :class="['filters-panel', { open: showFilters }]">
+        <AdminFilters
+          :filterFields="filterFields"
+          @apply-filters="applyFilters"
+        />
+      </div>
 
-        <div v-if="paginated.length === 0" class="text-muted text-center">
-          Actualmente no tienes preguntas disponibles. Por favor, agrega
-          algunas.
-        </div>
+      <h1 class="title">
+        <i class="fas fa-question-circle me-2"></i> Gestión de preguntas
+      </h1>
 
-        <div v-else class="table-wrapper">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Pregunta</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(question, index) in paginated" :key="question.id">
-                <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
-                <td>{{ question.text }}</td>
-                <td>
-                  <button
-                    class="icon-button edit"
-                    @click="openEditModal(question)"
-                  >
-                    <i class="fas fa-pen"></i>
-                  </button>
-                  <button
-                    class="icon-button delete"
-                    @click="deleteQuestion(question.id)"
-                  >
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <!-- Tabla de preguntas -->
+      <div v-if="paginated.length === 0" class="text-muted text-center">
+        No hay preguntas disponibles.
+      </div>
+      <div v-else class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th @click="sortTable('id')">#</th>
+              <th @click="sortTable('text')">Pregunta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(question, index) in paginated" :key="question.id">
+              <td>{{ index + 1 + (currentPage - 1) * itemsPerPage }}</td>
+              <td>{{ question.text }}</td>
+              <td>
+                <UserAdminActions
+                  :userId="question.id"
+                  :onView="openViewModal"
+                  :onEdit="openEditModal"
+                  :onDelete="deleteQuestion"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
+        <!-- Paginación -->
         <div class="pagination">
           <button
-            class="btn-pagination"
-            @click="previousPage"
+            class="page-button"
             :disabled="currentPage === 1"
+            @click="previousPage"
           >
             Anterior
           </button>
+          <span class="page-info">Página {{ currentPage }}</span>
           <button
-            class="btn-pagination"
-            @click="nextPage"
+            class="page-button"
             :disabled="currentPage === totalPages"
+            @click="nextPage"
           >
             Siguiente
           </button>
         </div>
-      </div>
-
-      <div v-if="isModalOpen" class="modal-backdrop" @click.self="closeModal">
-        <transition name="fade-scale">
-          <div class="modal-card" v-show="isModalOpen">
-            <div class="modal-header">
-              <h3>
-                <i class="fas fa-question-circle me-2"></i> Editar pregunta
-              </h3>
-              <button class="close-btn" @click="closeModal">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-            <form @submit.prevent="saveQuestion">
-              <div class="form-group">
-                <label for="questionText">Pregunta</label>
-                <input
-                  type="text"
-                  id="questionText"
-                  v-model="currentQuestion.text"
-                  required
-                />
-              </div>
-              <div class="actions">
-                <button type="submit" class="btn-confirm">
-                  <i class="fas fa-save me-1"></i> Guardar
-                </button>
-                <button type="button" class="btn-cancel" @click="closeModal">
-                  <i class="fas fa-times-circle me-1"></i> Cancelar
-                </button>
-              </div>
-            </form>
-          </div>
-        </transition>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Sidebar from '@/components/Sidebar.vue';
+import AdminSidebar from '@/components/Sidebar.vue';
+import BaseBreadcrumb from '@/components/CustomBreadcrumb.vue';
+import AdminFilters from '@/components/AdminFilters.vue';
+import UserAdminActions from '@/components/UserAdminActions.vue';
 import questionsService from '@/services/admin/questions.service.js';
 
 export default {
   name: 'QuestionsView',
   components: {
-    Sidebar,
+    AdminSidebar,
+    BaseBreadcrumb,
+    AdminFilters,
+    UserAdminActions,
   },
   data() {
     return {
-      searchQuery: '',
+      questions: [],
+      filtered: [],
+      showFilters: false,
       currentPage: 1,
       itemsPerPage: 5,
-      filtered: [],
-      paginated: [],
-      totalPages: 1,
-      isModalOpen: false,
-      currentQuestion: null,
+      filterFields: [
+        {
+          name: 'category',
+          label: 'Categoría',
+          type: 'select',
+          options: [
+            { value: '', text: 'Seleccione una categoría' },
+            { value: 'tech', text: 'Tecnología' },
+            { value: 'health', text: 'Salud' },
+            { value: 'education', text: 'Educación' },
+          ],
+        },
+        {
+          name: 'text',
+          label: 'Texto',
+          type: 'text',
+          placeholder: 'Ingrese el texto de la pregunta',
+        },
+      ],
     };
   },
-  mounted() {
-    this.refreshQuestions();
-  },
-  watch: {
-    searchQuery() {
-      this.currentPage = 1;
-      this.refreshQuestions();
+  computed: {
+    // Paginación de las preguntas
+    paginated() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.filtered.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.filtered.length / this.itemsPerPage);
     },
   },
   methods: {
-    refreshQuestions() {
-      const filtered = questionsService.filterQuestions(this.searchQuery);
-      const paginated = questionsService.paginateQuestions(
-        filtered,
-        this.currentPage,
-        this.itemsPerPage
-      );
-      this.totalPages = questionsService.getTotalPages(
-        filtered,
-        this.itemsPerPage
-      );
-      this.filtered = filtered;
-      this.paginated = paginated;
-
-      console.log('🔎 Paginated:', this.paginated);
+    loadQuestions() {
+      questionsService.getQuestions().then((questions) => {
+        this.questions = questions;
+        this.filtered = [...questions]; // Inicializa el filtro con todos los usuarios
+      });
     },
-
+    toggleFilters() {
+      this.showFilters = !this.showFilters;
+    },
+    applyFilters(filters) {
+      console.log('Filtros aplicados:', filters);
+      const filteredQuestions =
+        questionsService.filterQuestions(filters.text) || [];
+      this.filtered = Array.isArray(filteredQuestions) ? filteredQuestions : [];
+      this.currentPage = 1;
+    },
+    openCreateModal() {
+      console.log('Crear nueva pregunta');
+    },
     openEditModal(question) {
-      this.currentQuestion = { ...question };
-      this.isModalOpen = true;
+      console.log('Editar pregunta', question);
     },
-
-    closeModal() {
-      this.isModalOpen = false;
-    },
-
-    saveQuestion() {
-      questionsService.saveQuestion(this.currentQuestion);
-      this.closeModal();
-      this.refreshQuestions();
-    },
-
     deleteQuestion(id) {
+      console.log('Eliminar pregunta con ID:', id);
       questionsService.deleteQuestion(id);
-      this.refreshQuestions();
+      this.loadQuestions();
     },
-
+    sortTable(field) {
+      console.log('Ordenar por:', field);
+      // Aquí puedes implementar la lógica para ordenar las preguntas
+    },
     previousPage() {
       if (this.currentPage > 1) {
         this.currentPage--;
-        this.refreshQuestions();
       }
     },
-
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
-        this.refreshQuestions();
       }
     },
+  },
+  mounted() {
+    this.loadQuestions();
   },
 };
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/styles/admin/Questions.scss';
+
+.filters-panel {
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+
+  &.open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+    margin-bottom: 1rem;
+  }
+}
 </style>

@@ -41,6 +41,21 @@
               />
             </div>
 
+            <!-- Campo de MFA -->
+            <div class="mb-3">
+              <label for="mfa" class="form-label">
+                <i class="fas fa-shield-alt me-2"></i> Código MFA
+              </label>
+              <input
+                type="text"
+                id="mfa"
+                v-model="mfaCode"
+                class="form-control"
+                required
+                placeholder="Ingrese su código MFA"
+              />
+            </div>
+
             <div class="text-center mt-3">
               <button type="submit" class="btn btn-gradient mb-2">
                 <i class="fas fa-sign-in-alt me-2"></i>
@@ -50,13 +65,6 @@
           </form>
 
           <div class="text-center mt-2">
-            <!-- <router-link
-              to="/administrador/panel"
-              class="btn btn-secondary mb-2"
-            >
-              <i class="fas fa-cogs me-2"></i>
-              Ir a la vista de administrador
-            </router-link> -->
             <router-link to="/cliente/panel" class="btn btn-secondary">
               <i class="fas fa-user me-2"></i>
               Ir a la vista de cliente
@@ -77,11 +85,16 @@ export default {
     return {
       email: '',
       password: '',
+      mfaCode: '',
     };
   },
   methods: {
     async submitForm() {
-      const response = await loginService.loginUser(this.email, this.password);
+      const response = await loginService.loginUser(
+        this.email,
+        this.password,
+        this.mfaCode
+      );
       if (response.success) {
         this.$router.push('/administrador/panel');
       } else {

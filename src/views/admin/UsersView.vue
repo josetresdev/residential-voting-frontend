@@ -1,16 +1,34 @@
 <template>
   <div class="users-view">
     <AdminSidebar />
-
     <div class="container">
+      <BaseBreadcrumb
+        :crumbs="[
+          { label: 'Panel de administración', to: '/administrador/panel' },
+          { label: 'Gestión de usuarios' },
+        ]"
+      />
+      <div class="header-actions">
+        <button class="btn-filters" @click="toggleFilters">
+          <i class="fas fa-filter"></i> Desplegar filtros
+        </button>
+        <button class="btn-create" @click="openCreateModal">
+          <i class="fas fa-plus"></i> Crear nuevo
+        </button>
+      </div>
+      <div :class="['filters-panel', { open: showFilters }]">
+        <AdminFilters
+          :filterFields="filterFields"
+          @apply-filters="applyFilters"
+        />
+      </div>
       <h1 class="title">
         <i class="fas fa-users me-2"></i> Gestión de usuarios
       </h1>
-
+      <!-- Tabla de usuarios -->
       <div v-if="users.length === 0" class="text-muted text-center">
         No hay usuarios disponibles.
       </div>
-
       <div v-else class="table-wrapper">
         <table class="table">
           <thead>
@@ -33,17 +51,16 @@
                 </span>
               </td>
               <td>
-                <button class="icon-button edit" @click="openEditModal(user)">
-                  <i class="fas fa-pencil-alt"></i>
-                </button>
-                <button class="icon-button delete" @click="deleteUser(user.id)">
-                  <i class="fas fa-trash"></i>
-                </button>
+                <UserAdminActions
+                  :userId="user.id"
+                  :onView="openViewModal"
+                  :onEdit="openEditModal"
+                  :onDelete="deleteUser"
+                />
               </td>
             </tr>
           </tbody>
         </table>
-
         <div class="pagination">
           <button
             class="page-button"
@@ -63,121 +80,99 @@
         </div>
       </div>
     </div>
-
-    <div v-if="showModal" class="modal-backdrop" @click.self="closeModal">
-      <transition name="fade-scale">
-        <div class="modal-card" v-show="showModal">
-          <div class="modal-header">
-            <h3><i class="fas fa-user-edit me-2"></i>Editar usuario</h3>
-            <button class="close-btn" @click="closeModal">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <form @submit.prevent="saveEdit">
-            <div class="form-group">
-              <label for="name">Nombre</label>
-              <input
-                type="text"
-                id="name"
-                v-model="editUserData.name"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                v-model="editUserData.email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="role">Rol</label>
-              <select id="role" v-model="editUserData.role" required>
-                <option disabled value="">Seleccione un rol</option>
-                <option>Administrador</option>
-                <option>Usuario</option>
-                <option>Moderador</option>
-              </select>
-            </div>
-            <div class="actions">
-              <button type="submit" class="btn-confirm">
-                <i class="fas fa-save me-1"></i> Guardar
-              </button>
-              <button type="button" class="btn-cancel" @click="closeModal">
-                <i class="fas fa-times-circle me-1"></i> Cancelar
-              </button>
-            </div>
-          </form>
-        </div>
-      </transition>
-    </div>
   </div>
 </template>
 
 <script>
 import AdminSidebar from '@/components/Sidebar.vue';
+import BaseBreadcrumb from '@/components/CustomBreadcrumb.vue';
+import UserAdminActions from '@/components/UserAdminActions.vue';
+import AdminFilters from '@/components/AdminFilters.vue';
 import userService from '@/services/admin/users.service.js';
 
 export default {
   name: 'UsersView',
-  components: {
-    AdminSidebar,
-  },
+  components: { AdminSidebar, BaseBreadcrumb, UserAdminActions, AdminFilters },
   data() {
     return {
       users: [],
-      showModal: false,
-      editUserData: {
-        id: null,
-        name: '',
-        email: '',
-        role: '',
-      },
+      showFilters: false,
       currentPage: 1,
       usersPerPage: 5,
+      filterFields: [
+        {
+          name: 'role',
+          label: 'Rol',
+          type: 'select',
+          options: [
+            { value: '', text: 'Seleccione un rol' },
+            { value: 'Administrador', text: 'Administrador' },
+            { value: 'Usuario', text: 'Usuario' },
+            { value: 'Moderador', text: 'Moderador' },
+          ],
+        },
+        {
+          name: 'name',
+          label: 'Nombre',
+          type: 'text',
+          placeholder: 'Ingrese el nombre',
+        },
+        {
+          name: 'email',
+          label: 'Correo',
+          type: 'email',
+          placeholder: 'Ingrese el correo',
+        },
+      ],
     };
   },
   computed: {
+    // Calcula los usuarios paginados
     paginatedUsers() {
-      return userService.paginateUsers(
-        this.users,
-        this.currentPage,
-        this.usersPerPage
-      );
+      const start = (this.currentPage - 1) * this.usersPerPage;
+      const end = start + this.usersPerPage;
+      return this.users.slice(start, end);
     },
   },
   methods: {
     async loadUsers() {
+      // Cargar los usuarios (mock o desde el servicio real)
       this.users = await userService.getUsers();
     },
-    openEditModal(user) {
-      this.editUserData = { ...user };
-      this.showModal = true;
+    toggleFilters() {
+      this.showFilters = !this.showFilters;
     },
-    closeModal() {
-      this.showModal = false;
+    applyFilters(filters) {
+      console.log('Aplicar filtros:', filters);
+      // Puedes aplicar filtros aquí si es necesario
     },
-    saveEdit() {
-      this.users = userService.updateUser(this.users, this.editUserData);
-      this.closeModal();
-    },
-    deleteUser(userId) {
-      this.users = userService.deleteUser(this.users, userId);
-    },
-    getRoleClass(role) {
-      return userService.getRoleClass(role);
+    openCreateModal() {
+      console.log('Crear nuevo usuario');
     },
     sortTable(field) {
+      // Método para ordenar la tabla
       this.users = userService.sortUsers(this.users, field);
     },
-    prevPage() {
-      if (this.currentPage > 1) this.currentPage--;
-    },
     nextPage() {
-      if (this.currentPage * this.usersPerPage < this.users.length)
+      if (this.currentPage * this.usersPerPage < this.users.length) {
         this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    getRoleClass(role) {
+      switch (role) {
+        case 'Administrador':
+          return 'badge-admin';
+        case 'Moderador':
+          return 'badge-moderator';
+        case 'Usuario':
+        default:
+          return 'badge-user';
+      }
     },
   },
   mounted() {
@@ -188,4 +183,21 @@ export default {
 
 <style scoped lang="scss">
 @import '@/assets/styles/admin/Users.scss';
+
+.filters-panel {
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+
+  &.open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+    margin-bottom: 1rem;
+  }
+}
 </style>

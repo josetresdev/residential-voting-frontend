@@ -2,6 +2,8 @@
   <div class="admin-dashboard">
     <Sidebar />
     <main class="main-content">
+      <BaseBreadcrumb :crumbs="breadcrumbs" />
+
       <h1 class="dashboard-title">
         <i class="fas fa-tools me-2"></i> Panel de administración
       </h1>
@@ -28,16 +30,22 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import BaseBreadcrumb from '@/components/CustomBreadcrumb.vue';
 import adminDashboardService from '@/services/admin/adminDashboard.service.js';
 
 export default {
   name: 'AdminDashboard',
   components: {
     Sidebar,
+    BaseBreadcrumb,
   },
   data() {
     return {
       dashboardItems: [],
+      breadcrumbs: [
+        { label: 'Administrador', to: '/administrador' },
+        { label: 'Panel de administración' },
+      ],
     };
   },
   created() {

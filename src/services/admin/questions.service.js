@@ -17,7 +17,11 @@ let questions = [
 
 export default {
   getQuestions() {
-    return [...questions];
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve([...questions]);
+      }, 500); // Simula una respuesta asincrónica
+    });
   },
 
   saveQuestion(question) {

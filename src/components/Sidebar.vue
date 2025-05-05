@@ -21,9 +21,7 @@
       >
         <i :class="item.icon"></i>
         <span v-if="!collapsed" class="label">{{ item.title }}</span>
-        <div class="tooltip" v-if="!collapsed">
-          {{ item.title }}
-        </div>
+        <div class="tooltip" v-if="collapsed">{{ item.title }}</div>
       </router-link>
     </nav>
 
@@ -45,7 +43,7 @@ export default {
   name: 'AdminSidebar',
   data() {
     return {
-      collapsed: true,
+      collapsed: false,
       navItems: [
         {
           to: '/administrador/panel',
@@ -76,6 +74,31 @@ export default {
           to: '/administrador/resultados',
           title: 'Resultados',
           icon: 'fas fa-chart-pie',
+        },
+        {
+          to: '/administrador/tienda',
+          title: 'Tienda',
+          icon: 'fas fa-store',
+        },
+        {
+          to: '/administrador/financiera',
+          title: 'Financiera',
+          icon: 'fas fa-coins',
+        },
+        {
+          to: '/administrador/billetera',
+          title: 'Billetera Virtual',
+          icon: 'fas fa-wallet',
+        },
+        {
+          to: '/administrador/pagos',
+          title: 'Pagos',
+          icon: 'fas fa-credit-card',
+        },
+        {
+          to: '/administrador/integraciones',
+          title: 'Integraciones',
+          icon: 'fas fa-plug',
         },
       ],
     };

@@ -4,6 +4,14 @@
 
     <div class="results-view">
       <div class="container">
+        <!-- BREADCRUMB INCLUIDO -->
+        <BaseBreadcrumb
+          :crumbs="[
+            { label: 'Inicio', to: '/' },
+            { label: 'Resultados de votación por sesión' },
+          ]"
+        />
+
         <h1 class="title">
           <i class="fas fa-chart-bar me-2"></i> Resultados de votación por
           sesión
@@ -86,11 +94,13 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import BaseBreadcrumb from '@/components/CustomBreadcrumb.vue';
 import votingResultsService from '@/services/admin/results.service.js';
 
 export default {
   components: {
     Sidebar,
+    BaseBreadcrumb,
   },
   data() {
     return {

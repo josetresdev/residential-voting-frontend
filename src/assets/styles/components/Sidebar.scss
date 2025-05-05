@@ -1,5 +1,5 @@
 .sidebar {
-    width: 240px;
+    width: 220px;
     transition: width 0.3s ease;
     height: 85vh;
     background: linear-gradient(to bottom, #2b0a41, #56317a);
@@ -15,176 +15,193 @@
     left: 0;
     top: 11vh;
     z-index: 1000;
-    overflow: hidden;
-
+    overflow: hidden; /* Hacemos que el scroll solo aparezca dentro del contenedor */
+    
     &.collapsed {
-    width: 90px;
-    padding: 1.4rem 0.6rem;
-
-    .nav-item i,
-    .logout-button i,
-    .toggle-btn i {
-        font-size: 1.1rem;
-    }
-
-    .label {
+      width: 90px;
+      padding: 1.4rem 0.6rem;
+    
+      .nav-item i,
+      .logout-button i,
+      .toggle-btn i {
+        font-size: 0.8rem;
+      }
+    
+      .label {
         display: none;
+      }
     }
-    }
-
+    
     .sidebar-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-
-    .logo-icon {
-        font-size: 1.5rem;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    
+      .logo-icon {
+        font-size: 1rem;
         color: #c9c3ff;
+      }
     }
-    }
-
+    
     .toggle-btn {
-    background: none;
-    border: none;
-    color: #c9c3ff;
-    cursor: pointer;
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-
-    &:hover {
+      background: none;
+      border: none;
+      color: #c9c3ff;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    
+      &:hover {
         background-color: #3e215d;
-    }
-
-    i {
+      }
+    
+      i {
         transition: transform 0.3s ease;
+      }
     }
-    }
-
+    
     .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 1.4rem;
-    margin-top: 1.5rem;
-
-    .nav-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 0.8rem;
+      overflow-y: auto; /* Activamos el scroll cuando sea necesario */
+      overflow-x: hidden;
+      max-height: 70%;
+      padding-right: 0.2rem;
+      scrollbar-width: thin; /* Ajustamos el grosor del scroll */
+    
+      /* Estilo para el scrollbar */
+      &::-webkit-scrollbar {
+        width: 10px; /* Aseguramos que el scrollbar sea visible */
+        background-color: rgba(0, 0, 0, 0.1); /* Fondo sutil para el track */
+        border-radius: 5px;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.6); /* Thumb semi-transparente */
+        border-radius: 5px;
+      }
+    
+      &::-webkit-scrollbar-track {
+        background-color: rgba(255, 255, 255, 0.2); /* Track transparente */
+        border-radius: 5px;
+      }
+    
+      .nav-item {
         display: flex;
         align-items: center;
-        gap: 1.2rem;
-        padding: 0.7rem 0.6rem;
-        height: 50px;
+        gap: 0.6rem;
+        padding: 0.4rem 0.4rem;
+        height: 36px;
         border-radius: 12px;
         color: #eae8f6;
-        font-size: 1rem;
+        font-size: 0.75rem;
         transition: background 0.3s, color 0.3s;
         text-decoration: none;
         position: relative;
-
+    
         i {
-        width: 24px;
-        height: 24px;
-        font-size: 1.2rem;
-        text-align: center;
-        transition: font-size 0.3s ease;
+          width: 18px;
+          height: 18px;
+          font-size: 0.85rem;
+          text-align: center;
         }
-
+    
         .label {
-        white-space: nowrap;
-        font-size: 1rem;
-        color: #eae8f6;
-        transition: color 0.3s ease;
-        text-decoration: none;
-
-        &:hover {
+          white-space: nowrap;
+          font-size: 0.75rem;
+          color: #eae8f6;
+    
+          &:hover {
             color: #ffffff;
+          }
         }
-        }
-
+    
         .tooltip {
-        position: absolute;
-        background-color: #3e215d;
-        color: white;
-        padding: 0.3rem 0.6rem;
-        border-radius: 5px;
-        font-size: 0.85rem;
-        white-space: nowrap;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        pointer-events: none;
-        z-index: 100;
-        top: -30px;
-        left: 50%;
-        transform: translateX(-50%);
+          position: absolute;
+          background-color: #3e215d;
+          color: white;
+          padding: 0.25rem 0.5rem;
+          border-radius: 5px;
+          font-size: 0.7rem;
+          white-space: nowrap;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
+          pointer-events: none;
+          z-index: 100;
+          top: -30px;
+          left: 50%;
+          transform: translateX(-50%);
         }
-
+    
         &:hover {
-        background-color: #3e215d;
-        color: #ffffff;
-        text-decoration: none;
+          background-color: #3e215d;
+          color: #ffffff;
         }
-
+    
         &.active {
-        background-color: #56317a;
-        color: #fff;
-        font-weight: bold;
-        border-left: 6px solid #c9c3ff;
-        padding-left: 1.4rem;
-        i {
-            font-size: 1.1rem;
+          background-color: #56317a;
+          color: #fff;
+          font-weight: bold;
+          border-left: 6px solid #c9c3ff;
+          padding-left: 1rem;
+    
+          i {
+            font-size: 0.8rem;
             transform: scale(0.9);
+          }
         }
-        }
+      }
     }
-    }
-
+    
     .sidebar-footer {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-
-    .logout-button {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+    
+      .logout-button {
         background: none;
         border: none;
         color: #c9c3ff;
         cursor: pointer;
-        font-size: 1.2rem;
-        height: 45px;
+        font-size: 0.8rem;
+        height: 32px;
         border-radius: 12px;
         display: flex;
         align-items: center;
-        gap: 1rem;
-        padding: 0 0.8rem;
+        gap: 0.5rem;
+        padding: 0 0.4rem;
         text-decoration: none;
-
+    
         i {
-        width: 26px;
-        text-align: center;
+          width: 18px;
+          font-size: 0.85rem;
+          text-align: center;
         }
-
+    
         .label {
-        white-space: nowrap;
-        font-size: 1rem;
-        color: #c9c3ff;
-        transition: color 0.2s ease;
-        text-decoration: none;
-
-        &:hover {
+          white-space: nowrap;
+          font-size: 0.75rem;
+          color: #c9c3ff;
+    
+          &:hover {
             color: #ffffff;
+          }
         }
-        }
-
+    
         &:hover {
-        background-color: #3e215d;
-        color: #fff;
-        text-decoration: none;
+          background-color: #3e215d;
+          color: #fff;
         }
+      }
     }
-    }
-}
+  }

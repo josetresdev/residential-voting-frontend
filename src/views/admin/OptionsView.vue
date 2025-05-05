@@ -4,6 +4,13 @@
 
     <div class="questions-view">
       <div class="container">
+        <BaseBreadcrumb
+          :crumbs="[
+            { label: 'Inicio', to: '/' },
+            { label: 'Opciones de pregunta' },
+          ]"
+        />
+
         <h1 class="title">
           <i class="fas fa-question-circle me-2"></i> Opciones de pregunta
         </h1>
@@ -85,11 +92,13 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import BaseBreadcrumb from '@/components/CustomBreadcrumb.vue';
 import optionsService from '@/services/admin/options.service.js';
 
 export default {
   components: {
     Sidebar,
+    BaseBreadcrumb,
   },
   data() {
     return {

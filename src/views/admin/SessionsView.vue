@@ -4,6 +4,13 @@
 
     <div class="voting-sessions-view">
       <div class="container">
+        <BaseBreadcrumb
+          :crumbs="[
+            { label: 'Inicio', to: '/' },
+            { label: 'Sesiones de votación activas' },
+          ]"
+        />
+
         <h1 class="title">
           <i class="fas fa-clipboard-list me-2"></i> Sesiones de votación
           activas
@@ -69,11 +76,13 @@
 
 <script>
 import Sidebar from '@/components/Sidebar.vue';
+import BaseBreadcrumb from '@/components/CustomBreadcrumb.vue';
 import sessionsService from '@/services/admin/sessions.service.js';
 
 export default {
   components: {
     Sidebar,
+    BaseBreadcrumb,
   },
   data() {
     return {
